@@ -1,6 +1,6 @@
 import React from 'react';
 
-function GalleryImage({ imageUrl }) {
+function GalleryImage({ imageUrl }: { imageUrl: string }) {
   return (
     <div className="flex flex-col gap-3">
       <div

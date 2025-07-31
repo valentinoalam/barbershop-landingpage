@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/cards/testimonial-card.jsx", "src/components/cards/service-cards.jsx", "src/components/cards/haircut-card.jsx", "src/components/cards/faq-item.jsx", "src/components/cards/barber-card.jsx"],
   "exclude": ["node_modules"]
 }
