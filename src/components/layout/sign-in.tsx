@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-
+import Image from 'next/image'
+import Link from 'next/link';
 interface User {
   name: string
   email: string
@@ -19,7 +20,7 @@ const SignIn = () => {
     confirmPassword: ''
   });
 
-  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleInputChange = (e: { target: { name: string; value: string; }; }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -71,11 +72,11 @@ const SignIn = () => {
           className="flex items-center gap-2 p-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
-          <img
+          {user && <Image width={24} height={24}
             src={user?.avatar}
             alt={user?.name}
             className="w-6 h-6 rounded-full"
-          />
+          />}
           <span className="hidden sm:inline">{user?.name}</span>
           <svg
             className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
@@ -100,7 +101,7 @@ const SignIn = () => {
                   <p className="text-sm font-medium text-gray-900 dark:text-white">{user?.name}</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
                 </div>
-                <a
+                <Link
                   href="/profile"
                   className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
                 >
@@ -108,8 +109,8 @@ const SignIn = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                   Profile
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/settings"
                   className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
                 >
@@ -118,7 +119,7 @@ const SignIn = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   Settings
-                </a>
+                </Link>
                 <button
                   onClick={handleSignOut}
                   className="flex items-center gap-2 w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-gray-100 dark:text-red-500 dark:hover:bg-gray-700"

@@ -1,3 +1,5 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 const page = () => {
@@ -8,7 +10,7 @@ const page = () => {
             <div className="flex flex-col items-center justify-between py-6 lg:flex-row">
             <div className="relative ">
                 <div className="absolute top-0 z-0 opacity-50 -left-48">
-                <img src="https://placehold.co/200x100" className="z-0 object-fill h-full w-36 fill-y text-y " />
+                <Image width={200} height={100} src="https://placehold.co/200x100" className="z-0 object-fill h-full w-36 fill-y text-y " alt={''} />
                 </div>
                 <div className="relative z-40 lg:max-w-xl lg:pr-5">
                 <p className="flex text-sm uppercase text-g1 ">
@@ -23,17 +25,17 @@ const page = () => {
                 <p className="text-base text-gray-700">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
                     accusantium doloremque it.</p>
                 <div className="flex flex-col items-center mt-10 md:flex-row">
-                    <a href="/"
+                    <Link href="/"
                     className="inline-flex items-center justify-center w-full h-12 px-6 mb-3 font-medium tracking-wide text-white transition bg-green-600 rounded shadow-md hover:bg-blue-800 focus:outline-none md:mr-4 md:mb-0 md:w-auto">
-                    View More</a>
-                    <a href="/" aria-label="" className="inline-flex items-center font-semibold group text-g1">Watch how
+                    View More</Link>
+                    <Link href="/" aria-label="" className="inline-flex items-center font-semibold group text-g1">Watch how
                     it works
                     <svg xmlns="http://www.w3.org/2000/svg"
                         className="w-6 h-6 ml-4 transition-transform group-hover:translate-x-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
-                    </a>
+                    </Link>
                 </div>
                 </div>
 
@@ -46,7 +48,7 @@ const page = () => {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 17l-4 4m0 0l-4-4m4 4V3"></path>
                 </svg>
                 <div className="abg-orange-400 mx-auto w-fit overflow-hidden rounded-[6rem] rounded-br-none rounded-tl-none">
-                <img src="https://placehold.co/400x400" />
+                <Image width={400} height={400} src="https://placehold.co/400x400" alt={''} />
                 </div>
             </div>
             </div>

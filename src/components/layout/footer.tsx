@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 const Footer = () => {
@@ -6,7 +7,7 @@ const Footer = () => {
           <div className="flex max-w-[960px] flex-1 flex-col">
             <footer className="flex flex-col gap-6 px-5 py-10 text-center @container">
               <div className="flex flex-wrap justify-center gap-4">
-                <a href="#">
+                <Link href="#">
                   <div className="text-[#bab29c]" data-icon="InstagramLogo" data-size="24px" data-weight="regular">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                       <path
@@ -14,8 +15,8 @@ const Footer = () => {
                       ></path>
                     </svg>
                   </div>
-                </a>
-                <a href="#">
+                </Link>
+                <Link href="#">
                   <div className="text-[#bab29c]" data-icon="FacebookLogo" data-size="24px" data-weight="regular">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
                       <path
@@ -23,7 +24,7 @@ const Footer = () => {
                       ></path>
                     </svg>
                   </div>
-                </a>
+                </Link>
               </div>
               <p className="text-[#bab29c] text-base font-normal leading-normal">© 2024 The Sharp Edge. All rights reserved.</p>
             </footer>

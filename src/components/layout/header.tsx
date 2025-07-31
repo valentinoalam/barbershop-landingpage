@@ -1,5 +1,6 @@
 import React from 'react';
 import LogoIcon from '../common/logo-icon'; // Adjust path as needed
+import Link from 'next/link';
 
 function Header() {
   return (
@@ -10,10 +11,10 @@ function Header() {
       </div>
       <div className="flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
-          <a className="text-white text-sm font-medium leading-normal" href="#">Services</a>
-          <a className="text-white text-sm leading-normal" href="#">Gallery</a>
-          <a className="text-white text-sm font-medium leading-normal" href="#">Testimonials</a>
-          <a className="text-white text-sm font-medium leading-normal" href="#">Contact</a>
+          <Link className="text-white text-sm font-medium leading-normal" href="#">Services</Link>
+          <Link className="text-white text-sm leading-normal" href="#">Gallery</Link>
+          <Link className="text-white text-sm font-medium leading-normal" href="#">Testimonials</Link>
+          <Link className="text-white text-sm font-medium leading-normal" href="#">Contact</Link>
         </div>
         <button
           className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3c334] text-[#181611] text-sm font-bold leading-normal tracking-[0.015em]"

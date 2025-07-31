@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
+import Image from 'next/image'
 const DrawerCart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState([
@@ -115,7 +115,7 @@ const DrawerCart = () => {
               <div className="space-y-4">
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex gap-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <img
+                    <Image width={60} height={60}
                       src={item.image}
                       alt={item.name}
                       className="w-15 h-15 object-cover rounded-md bg-gray-200"
