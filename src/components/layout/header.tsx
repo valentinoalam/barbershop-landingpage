@@ -42,9 +42,8 @@ function Header() {
   }, []);
   
   const navItems = [
-    { name: 'Services', href: '/services' },
+    { name: 'About', href: '/about' },
     { name: 'Gallery', href: '/gallery' },
-    { name: 'Location', href: '/location' },
     { name: 'Contact', href: '/contact' }
   ];
 

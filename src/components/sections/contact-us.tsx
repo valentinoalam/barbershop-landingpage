@@ -127,7 +127,7 @@ export default function LocationsPage() {
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     activeTab === location.id
                       ? "bg-amber-500 text-slate-900"
-                      : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                      : "bg-card text-slate-300 hover:bg-slate-700"
                   }`}
                 >
                   {location.name.split(" - ")[1]}
@@ -137,7 +137,7 @@ export default function LocationsPage() {
           </div>
 
           {/* Location Details */}
-          <div className="bg-slate-800 rounded-2xl overflow-hidden shadow-xl">
+          <div className="bg-card rounded-2xl overflow-hidden shadow-xl">
             {activeLocation && (
               <>
                 {/* Location Image */}
@@ -223,7 +223,7 @@ export default function LocationsPage() {
                     </Link>
                     <a
                       href={`tel:${activeLocation.phone}`}
-                      className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-100 py-3 px-4 rounded-lg font-medium text-center transition-colors"
+                      className="flex-1 bg-[#393528] hover:bg-slate-600 text-slate-100 py-3 px-4 rounded-lg font-medium text-center transition-colors"
                     >
                       Call Now
                     </a>

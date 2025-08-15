@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import HeroSection from '@/components/sections/hero';
 import FloatingChatButton from '@/components/chat-us';
-
 // Lazy load all sections except Hero (which is above the fold)
 const FeaturedHaircuts = lazy(() => import('@/components/sections/featured-hairstyles'));
 const OurBarbers = lazy(() => import('@/components/sections/our-barber'));
@@ -9,6 +8,7 @@ const OurServices = lazy(() => import('@/components/sections/our-service'));
 const Gallery = lazy(() => import('@/components/sections/gallery'));
 const Testimonials = lazy(() => import('@/components/sections/testimonial'));
 const FAQSection = lazy(() => import('@/components/sections/faq'));
+const Newsletter = lazy(() => import('@/components/sections/newsletter'));
 const ContactUs = lazy(() => import('@/components/sections/contact-us'));
 
 // Placeholder component for loading states
@@ -50,9 +50,13 @@ export default function Home() {
           </Suspense>
           
           <Suspense fallback={<SectionPlaceholder minHeight={600} />}>
-            <ContactUs />
+            <Newsletter />
           </Suspense>
           
+          <Suspense fallback={<SectionPlaceholder minHeight={600} />}>
+            <ContactUs />
+          </Suspense>
+
           <FloatingChatButton />
         </div>
       </div>

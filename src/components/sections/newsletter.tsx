@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react'; // Import useState
 
-const newsletter = () => {
+const Newsletter = () => {
     
   const [email, setEmail] = useState(''); // State to manage email input
 
@@ -54,4 +54,4 @@ const newsletter = () => {
   )
 }
 
-export default newsletter
+export default Newsletter

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useRef } from 'react';
-
+import Image from 'next/image';
 function BarberCard({ imageUrl, name, specialization, instagramHandle, index }) {
   const cardRef = useRef(null);
 
@@ -31,14 +31,20 @@ function BarberCard({ imageUrl, name, specialization, instagramHandle, index }) 
   return (
     <div 
       ref={cardRef}
-      className={`team-card relative flex h-full flex-1 flex-shrink-0 flex-col gap-4 text-center rounded-2xl bg-card shadow-lg min-w-32 lg:min-w-40 pt-4 overflow-hidden cursor-pointer stagger-${index % 4 + 1}`}
+      className={`team-card relative flex h-full flex-1 flex-shrink-0 flex-col gap-4 text-center rounded-2xl bg-card shadow-lg min-w-41.5 lg:min-w-40 pt-4 overflow-hidden cursor-pointer stagger-${index % 4 + 1}`}
     >
       <div className="relative w-4/5 mx-auto mb-4">
-        
-        <div 
-          className="relative flex flex-col self-center bg-center bg-no-repeat bg-cover rounded-full avatar aspect-square"
-          style={{ backgroundImage: `url("${imageUrl}")`, filter: 'grayscale(100%)' }}
-        ></div>
+        <div className="relative flex flex-col self-center avatar aspect-square">
+          <Image
+            src={imageUrl}
+            alt="User Avatar"
+            fill
+            sizes="(max-width: 768px) 48vw, (max-width: 1200px) 25vw, 23vw"
+            quality={75}
+            loading="lazy"
+            className="object-cover rounded-full grayscale"
+          />
+        </div>
       </div>
       
       <div className="flex flex-col relative justify-between flex-1 gap-2 p-4 pt-0 text-center">
