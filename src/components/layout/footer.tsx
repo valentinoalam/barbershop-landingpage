@@ -26,7 +26,7 @@ const Footer = () => {
                   </div>
                 </Link>
               </div>
-              <p className="text-[#bab29c] text-base font-normal leading-normal">© 2024 The Sharp Edge. All rights reserved.</p>
+              <p className="text-[#bab29c] text-base font-normal leading-normal">© 2024 The HairCut. All rights reserved.</p>
             </footer>
           </div>
         </footer>

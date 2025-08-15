@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  lastName  String   @map("last_name")
+  email     String   @unique
+  phone     String
+  admin     Boolean  @default(false)
+  confirm   Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  shifts        Shift[]
+  purchaseOrders PurchaseOrder[] @relation("UserPurchaseOrders")
+
+  @@map("users")
+}
+
+model Services {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  time        Int    // duration in minutes
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  shifts Shift[]
+
+  @@map("services")
+}
+
+model Barber {
+  id        String   @id @default(cuid())
+  name      String
+  image     String?
+  shift     DateTime? // This seems to be a single shift time, but we'll use the Shift model for actual scheduling
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  shifts Shift[]
+
+  @@map("barbers")
+}
+
+model Office {
+  id        String   @id @default(cuid())
+  location  String
+  shift     DateTime? // Similar to barber, actual shifts will be in Shift model
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  shifts Shift[]
+
+  @@map("offices")
+}
+
+model Shift {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  serviceId String   @map("serv_id")
+  barberId  String   @map("barber_id")
+  officeId  String   @map("office_id")
+  
+  // Additional fields for booking management
+  appointmentDate DateTime @map("appointment_date")
+  appointmentTime String   @map("appointment_time")
+  status          String   @default("confirmed") // confirmed, cancelled, completed
+  notes           String?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  service Services @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  barber  Barber   @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  office  Office   @relation(fields: [officeId], references: [id], onDelete: Cascade)
+
+  @@map("shifts")
+}
+
+model Products {
+  id          String  @id @default(cuid())
+  name        String
+  price       Float
+  description String
+  stock       Int
+  available   Boolean @default(true)
+  favorite    Boolean @default(false)
+  categoryId  String? @map("category_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  category       Category? @relation(fields: [categoryId], references: [id])
+  purchaseOrders PurchaseOrder[]
+
+  @@map("products")
+}
+
+model PayMethods {
+  id          String @id @default(cuid())
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  purchaseOrders PurchaseOrder[]
+
+  @@map("pay_methods")
+}
+
+model PurchaseOrder {
+  id         String @id @default(cuid())
+  userId     String @map("user_id")
+  productId  String @map("prod_id")
+  payMethodId String @map("pm_id")
+  quantity   Int    @map("quant_prod")
+  amount     Float  @map("ammount")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user      User       @relation("UserPurchaseOrders", fields: [userId], references: [id], onDelete: Cascade)
+  product   Products   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  payMethod PayMethods @relation(fields: [payMethodId], references: [id], onDelete: Cascade)
+
+  @@map("purchase_orders")
+}
+
+model Category {
+  id          String @id @default(cuid())
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  products Products[]
+
+  @@map("categorys")
+}

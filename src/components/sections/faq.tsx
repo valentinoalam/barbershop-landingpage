@@ -5,7 +5,7 @@ function FAQSection() {
   const faqs = [
     {
       question: "How long does a typical haircut take?",
-      answer: "A typical haircut at The Sharp Edge takes approximately 30-45 minutes, depending on the complexity of the style and hair type."
+      answer: "A typical haircut at The HairCut takes approximately 30-45 minutes, depending on the complexity of the style and hair type."
     },
     {
       question: "Do you offer beard trimming services?",

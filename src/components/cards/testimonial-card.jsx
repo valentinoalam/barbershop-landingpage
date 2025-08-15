@@ -1,9 +1,19 @@
 import React from 'react';
+import { cn } from "@/lib/utils";
 import StarIcon from '../common/star-icon'; // Adjust path as needed
 
 function TestimonialCard({ avatarUrl, name, timeAgo, rating, text }) {
   return (
-    <div className="flex flex-col gap-3 bg-[#181611]">
+    <figure
+      className={cn(
+        // "flex flex-col gap-3 bg-[#181611]",
+        "relative h-full w-64 bg-[#181611] cursor-pointer overflow-hidden rounded-xl border p-4",
+        // light styles
+        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+        // dark styles
+        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
+      )}
+    >
       <div className="flex items-center gap-3">
         <div
           className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
@@ -20,7 +30,7 @@ function TestimonialCard({ avatarUrl, name, timeAgo, rating, text }) {
         ))}
       </div>
       <p className="text-white text-sm font-normal leading-normal">{text}</p>
-    </div>
+    </figure>
   );
 }
 
