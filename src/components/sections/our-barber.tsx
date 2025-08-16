@@ -1,10 +1,17 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BarberCard from '../cards/barber-card'; // Adjust path as needed
+import Image from 'next/image';
 
 function OurBarbers() {
   const [activeTab, setActiveTab] = useState('downtown');
-
+  const tabs = [
+    { id: 'downtown', label: 'Downtown', img: '/img/shops/downtown.png' },
+    { id: 'uptown', label: 'Uptown', img: '/img/shops/uptown.png' },
+    { id: 'westside', label: 'Westside', img: '/img/shops/westside.png' },
+    { id: 'eastside', label: 'Eastside', img: '/img/shops/eastside.png' },
+  ];
+  const [activeImage, setActiveImage] = useState('/img/shops/downtown.png')
   const branches = {
     downtown: {
       name: "The Haircut - Downtown",
@@ -111,17 +118,152 @@ function OurBarbers() {
       ]
     }
   };
+  const particlesContainerRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
+  const teamCardsContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    // --- PARTICLE LOGIC START ---
 
-  const tabs = [
-    { id: 'downtown', label: 'Downtown' },
-    { id: 'uptown', label: 'Uptown' },
-    { id: 'westside', label: 'Westside' },
-    { id: 'eastside', label: 'Eastside' },
-  ];
+    // The functions can be defined inside the effect or outside.
+    // Defining them inside makes them part of the component's render scope.
+    const createParticle = (container: HTMLDivElement) => {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      // Generate a random size (e.g., between 2px and 8px)
+      const randomSize = Math.floor(Math.random() * (18 - 2 + 1)) + 4;
+      particle.style.width = `${randomSize}px`;
+      particle.style.height = `${randomSize}px`;
+      // Apply a random blur to the particle
+      const randomBlur = Math.random() * 5; // Adjust the maximum blur value (e.g., 5px)
+      particle.style.filter = `blur(${randomBlur}px)`;
 
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+
+      const duration = 3 + Math.random() * 4;
+      const lifeSpan = duration + 2; // Particle's total life in seconds
+
+      // Add the new 'fade-out' animation
+      particle.style.animation = `
+        float ${duration}s ease-in-out infinite,
+        fade-out 2s ease-in-out ${lifeSpan - 2}s forwards
+      `;
+      particle.style.animationDelay = Math.random() * 2 + 's';
+
+      container.appendChild(particle);
+
+      // The particle is removed after its full lifespan + a small buffer
+      const timeoutId = setTimeout(() => {
+        if (particle.parentNode) {
+          particle.remove();
+          createParticle(container);
+        }
+      }, lifeSpan * 1000);
+
+      return timeoutId;
+    };
+
+    const createParticles = () => {
+      const container = particlesContainerRef.current;
+      if (!container) return; // Exit if the ref isn't attached yet
+
+      const particleCount = 20;
+      const timeouts = []; // Store timeout IDs for cleanup
+
+      for (let i = 0; i < particleCount; i++) {
+        timeouts.push(createParticle(container));
+      }
+      return timeouts;
+    };
+
+    const particleTimeouts = createParticles();
+    // Animation on scroll (using a selector still works fine here)
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+        }
+      });
+    }, observerOptions);
+
+    // Get all team cards within the container
+    const teamCards = teamCardsContainerRef.current ? teamCardsContainerRef.current.querySelectorAll('.team-card') : [];
+    teamCards.forEach((card: Element) => {
+      observer.observe(card);
+    });
+
+    // Animate subtitle using the ref
+    if (subtitleRef.current) {
+      const subtitle = subtitleRef.current;
+      setTimeout(() => {
+        subtitle.style.opacity = '1';
+        subtitle.style.transition = 'all 0.8s ease 0.5s';
+        subtitle.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          subtitle.style.transform = 'translateY(0)';
+        }, 100);
+      }, 800);
+    }
+    const handleMouseMove = (e: { clientX: number; clientY: number; }) => {
+      const cards: NodeListOf<HTMLDivElement> | never[] = teamCardsContainerRef.current
+        ? teamCardsContainerRef.current.querySelectorAll('.team-card')
+        : [];
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const distance = Math.sqrt(x * x + y * y);
+        const maxDistance = 200;
+
+        if (distance < maxDistance) {
+          const strength = 1 - distance / maxDistance;
+          const moveX = (x / distance) * strength * 5;
+          const moveY = (y / distance) * strength * 5;
+          card.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        } else {
+          card.style.transform = '';
+        }
+      });
+    };
+
+    // 5. Reset card positions when mouse leaves
+    const handleMouseLeave = () => {
+      const cards: NodeListOf<HTMLDivElement> | never[] = teamCardsContainerRef.current
+        ? teamCardsContainerRef.current.querySelectorAll('.team-card')
+        : [];
+      cards.forEach((card) => {
+        card.style.transform = '';
+      });
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
+
+    // 6. Cleanup function
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      particleTimeouts!.forEach((id) => clearTimeout(id));
+    };
+
+  }, []);
+  useEffect(()=>{
+    function getTabById(tabId: string) {
+      return tabs.find(tab => tab.id === tabId);
+    }
+    const selectedTab = getTabById(activeTab)
+    if(selectedTab) setActiveImage(selectedTab.img)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[activeTab])
   return (
     <>
-      <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Our Barbers</h2>
+      <h2 ref={subtitleRef} className="text-white text-4xl font-playfair font-bold leading-tight tracking-[-0.015em] px-4 pt-5">Our Barbers</h2>
       
       {/* Tab Navigation */}
       <div className="flex overflow-x-auto px-4 mb-4">
@@ -141,20 +283,36 @@ function OurBarbers() {
           ))}
         </div>
       </div>
-
+      
       {/* Branch Title with Background */}
-      <div className="mx-4 mb-6 relative overflow-hidden rounded-xl">
+      <div className="mx-4 mb-6 group relative overflow-hidden rounded-xl">
+          
         {/* Background Image with Tint */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('/img/barbershop-interior.jpg')`
-          }}
-        ></div>
+        <div className="absolute inset-0 bg-cover bg-center h-full w-full">
+          <Image
+            src={activeImage}
+            alt={activeTab}
+            fill
+            sizes="60vw"
+            loading="lazy"
+            objectFit="cover"
+            quality={85}
+          />
+          <div
+            className="absolute inset-0 z-10 duration-500 ease-in-out transform group-hover:-translate-y-full"
+            style={{
+              backgroundImage: 'linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.4))'
+            }}
+          ></div>
+        </div>
         
         {/* Gradient Overlay for Better Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/40"></div>
-        
+        {/* Animated Background Particles */}
+        <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
+            <div ref={particlesContainerRef} id="particles" className="h-full float mix-blend-multiply w-full"></div>
+        </div>
+      
         {/* Branch Name */}
         <div className="relative z-10 px-8 py-12 text-center">
           <h3 className="text-white text-[42px] md:text-[52px] font-black leading-[0.9] tracking-[-0.02em] drop-shadow-2xl">
@@ -173,11 +331,12 @@ function OurBarbers() {
         <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-white/30"></div>
         <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-white/30"></div>
         <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-white/30"></div>
+        
       </div>
 
       {/* Barbers Grid */}
       <div className="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="flex flex-wrap items-stretch place-items-center gap-3 p-4">
+        <div ref={teamCardsContainerRef} className="flex flex-wrap items-stretch place-items-center gap-3 p-4">
           {branches[activeTab as keyof typeof branches].barbers.map((barber, index) => (
             <BarberCard
               key={`${activeTab}-${index}`}

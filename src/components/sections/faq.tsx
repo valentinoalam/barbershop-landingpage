@@ -19,7 +19,7 @@ function FAQSection() {
 
   return (
     <>
-      <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">FAQ</h2>
+      <h2 className="text-white font-playfair text-4xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">FAQ</h2>
       <div className="flex flex-col p-4 gap-3">
         {faqs.map((faq, index) => (
           <FAQItem key={index} question={faq.question} answer={faq.answer} />

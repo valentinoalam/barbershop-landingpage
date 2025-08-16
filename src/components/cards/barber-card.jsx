@@ -33,8 +33,9 @@ function BarberCard({ imageUrl, name, specialization, instagramHandle, index }) 
       ref={cardRef}
       className={`team-card relative flex h-full flex-1 flex-shrink-0 flex-col gap-4 text-center rounded-2xl bg-card shadow-lg min-w-41.5 lg:min-w-40 pt-4 overflow-hidden cursor-pointer stagger-${index % 4 + 1}`}
     >
-      <div className="relative w-4/5 mx-auto mb-4">
-        <div className="relative flex flex-col self-center avatar aspect-square">
+      <div className="relative w-4/5 mx-auto group mb-4">
+        <div className="relative flex flex-col self-center rounded-full avatar aspect-square">
+          <div className='absolute z-40 rounded-full avatar'></div>
           <Image
             src={imageUrl}
             alt="User Avatar"
@@ -42,7 +43,7 @@ function BarberCard({ imageUrl, name, specialization, instagramHandle, index }) 
             sizes="(max-width: 768px) 48vw, (max-width: 1200px) 25vw, 23vw"
             quality={75}
             loading="lazy"
-            className="object-cover rounded-full grayscale"
+            className="object-cover rounded-full transition-all duration-300 grayscale group-hover:grayscale-0"
           />
         </div>
       </div>

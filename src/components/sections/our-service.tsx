@@ -22,7 +22,9 @@ function OurServices() {
 
   return (
     <>
-      <h2 className="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Our Services</h2>
+      <div className='text-5xl leading-tight mb-4 font-bold floating'>
+        <h2 className="text-white text-4xl font-playfair font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Our Services</h2>
+      </div>
       <div className="flex gap-3 p-3 flex-wrap pr-4">
         <div className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#393528] pl-4 pr-4">
           <p className="text-white text-sm font-medium leading-normal">Classic Cut</p>

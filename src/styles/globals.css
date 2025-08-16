@@ -179,6 +179,10 @@ layer(base);
     @apply bg-background text-foreground;
   }
 }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
 
 @keyframes slideInUp {
   from {
@@ -191,6 +195,26 @@ layer(base);
   }
 }
 
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+}
+
+@keyframes rotate-360 {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    filter: blur(0px); /* Start with no blur */
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px); /* End with a strong blur */
+  }
+}
 .halftone {
 	--mask: linear-gradient(rgb(0 0 0), rgb(0 0 0 / 0.5));
 	--stop1: 0.06rem;
@@ -246,8 +270,18 @@ layer(base);
 .avatar {
   transition: all 0.4s ease;
   position: relative;
+  padding-bottom: 100%; 
   overflow: hidden;
 }
+/* .avatar > Image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+} */
 
 .avatar::before {
   content: '';
@@ -298,15 +332,54 @@ layer(base);
   height: 40px;
 }
 
+.role-badge {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.decorative-line {
+    animation: pulse-glow 2s infinite;
+}
+
+.floating {
+    animation: float 3s ease-in-out infinite;
+}
+
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 
+
 .bg-gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+.text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.particle {
+    position: absolute;
+    /* width: 8px;
+    height: 8px; */
+    background: rgba(243, 195, 52, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.modal {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.modal.dark {
+    background: rgba(31, 41, 55, 0.95);
+}
 
 /* Paradigm Shift Custom Styles */
 .is-preload * {

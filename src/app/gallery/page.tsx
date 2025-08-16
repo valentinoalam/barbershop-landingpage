@@ -81,9 +81,9 @@ export default function InfiniteMasonry() {
   return (
     <div className="container mx-auto min-h-screen mt-30">
       <div className="p-4 mx-auto mt-5 columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <div
-            key={item.id}
+            key={index}
             className="bg-gray-100 rounded-lg overflow-hidden shadow-md mb-4 break-inside-avoid cursor-pointer hover:opacity-90 transition-opacity relative group"
             onClick={() => openImageModal(item.src)}
           >
