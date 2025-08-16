@@ -24,7 +24,7 @@ export default function LocationsPage() {
         Saturday: "8:00 AM - 6:00 PM",
         Sunday: "10:00 AM - 5:00 PM",
       },
-      image: "/downtown-barbershop.png",
+      image: "/img/shops/downtown-barbershop.png",
       features: ["Premium Cuts", "Hot Towel Shaves", "Beard Styling", "Hair Washing"],
       manager: "Ethan Carter",
     },
@@ -41,7 +41,7 @@ export default function LocationsPage() {
         Saturday: "8:00 AM - 6:00 PM",
         Sunday: "Closed",
       },
-      image: "/uptown-barbershop.png",
+      image: "/img/shops/uptown-barbershop.png",
       features: ["Classic Cuts", "Beard Trimming", "Mustache Styling", "Scalp Treatment"],
       manager: "Liam Harper",
     },
@@ -58,7 +58,7 @@ export default function LocationsPage() {
         Saturday: "9:00 AM - 8:00 PM",
         Sunday: "11:00 AM - 6:00 PM",
       },
-      image: "/westside-barbershop.png",
+      image: "/img/shops/westside-barbershop.png",
       features: ["Modern Fades", "Skin Fades", "Beard Design", "Hair Styling"],
       manager: "Noah Bennett",
     },
@@ -75,7 +75,7 @@ export default function LocationsPage() {
         Saturday: "8:00 AM - 5:00 PM",
         Sunday: "10:00 AM - 4:00 PM",
       },
-      image: "/eastside-barbershop.png",
+      image: "/img/shops/eastside-barbershop.png",
       features: ["Traditional Cuts", "Straight Razor Shaves", "Mustache Wax", "Grooming"],
       manager: "Marcus Thompson",
     },
@@ -143,7 +143,7 @@ export default function LocationsPage() {
                 {/* Location Image */}
                 <div className="h-64 bg-gradient-to-br from-amber-400/20 to-slate-700 relative overflow-hidden">
                   <Image fill
-                    src={`/img/hero/dan-gold-07AAmZ1dECU-unsplash.jpg?height=256&width=400&query=${activeLocation.name} modern barbershop interior`}
+                    src={`${activeLocation.image}?height=256&width=400&query=${activeLocation.name} modern barbershop interior`}
                     alt={activeLocation.name}
                     className="w-full h-full object-cover"
                   />

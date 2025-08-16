@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock, MapPin, Camera, Check } from "lucide-react"
-import Image from "next/image"
 
 interface Appointment {
   id: string
@@ -134,30 +133,8 @@ export default function AppointmentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Link href="/" className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors">
-                <ArrowLeft className="w-5 h-5" />
-                Back to Home
-              </Link>
-              <div className="h-6 w-px bg-slate-300"></div>
-              <h1 className="text-xl font-bold text-slate-900 font-serif">My Appointments</h1>
-            </div>
-            <Link
-              href="/booking"
-              className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-full font-medium transition-colors"
-            >
-              Book New Appointment
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+      <div className="max-w-7xl mt-16 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Tabs */}
         <div className="flex space-x-1 bg-slate-100 p-1 rounded-lg mb-8 max-w-md">
           <button
@@ -185,7 +162,7 @@ export default function AppointmentsPage() {
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <Image width={48} height={48}
+                    <img
                       src={appointment.barber.image || "/placeholder.svg"}
                       alt={appointment.barber.name}
                       className="w-12 h-12 rounded-full object-cover"
@@ -232,7 +209,7 @@ export default function AppointmentsPage() {
                     <div className="flex items-center gap-4">
                       {appointment.photoUrl ? (
                         <div className="flex items-center gap-2">
-                          <Image width={64} height={64}
+                          <img
                             src={appointment.photoUrl || "/placeholder.svg"}
                             alt="Finished haircut"
                             className="w-16 h-16 rounded-lg object-cover"
@@ -303,6 +280,5 @@ export default function AppointmentsPage() {
           )}
         </div>
       </div>
-    </div>
   )
 }

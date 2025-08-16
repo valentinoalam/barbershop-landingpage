@@ -17,6 +17,9 @@ import {
   Plus,
   Building2,
   Users,
+  Package,
+  Star,
+  DollarSign,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -60,11 +63,23 @@ interface Office {
   createdAt: string
 }
 
+interface Product {
+  id: string
+  name: string
+  price: number
+  description: string
+  stock: number
+  available: boolean
+  favorite: boolean
+  createdAt: string
+}
+
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<"bookings" | "barbers" | "offices">("bookings")
+  const [activeTab, setActiveTab] = useState<"bookings" | "barbers" | "offices" | "products">("bookings")
   const [bookings, setBookings] = useState<Booking[]>([])
   const [barbers, setBarbers] = useState<Barber[]>([])
   const [offices, setOffices] = useState<Office[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0])
   const [statusFilter, setStatusFilter] = useState<string>("all")
@@ -73,10 +88,20 @@ export default function AdminPage() {
   // Form states
   const [showBarberForm, setShowBarberForm] = useState(false)
   const [showOfficeForm, setShowOfficeForm] = useState(false)
+  const [showProductForm, setShowProductForm] = useState(false)
   const [editingBarber, setEditingBarber] = useState<Barber | null>(null)
   const [editingOffice, setEditingOffice] = useState<Office | null>(null)
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [barberForm, setBarberForm] = useState({ name: "", image: "" })
   const [officeForm, setOfficeForm] = useState({ location: "" })
+  const [productForm, setProductForm] = useState({
+    name: "",
+    price: 0,
+    description: "",
+    stock: 0,
+    available: true,
+    favorite: false,
+  })
 
   useEffect(() => {
     if (activeTab === "bookings") {
@@ -85,6 +110,8 @@ export default function AdminPage() {
       fetchBarbers()
     } else if (activeTab === "offices") {
       fetchOffices()
+    } else if (activeTab === "products") {
+      fetchProducts()
     }
   }, [activeTab, selectedDate, statusFilter, barberFilter])
 
@@ -136,6 +163,21 @@ export default function AdminPage() {
       }
     } catch (error) {
       console.error("Error fetching offices:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch("/api/admin/products")
+      const data = await response.json()
+      if (response.ok) {
+        setProducts(data.products || [])
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error)
     } finally {
       setLoading(false)
     }
@@ -195,6 +237,40 @@ export default function AdminPage() {
     }
   }
 
+  const handleProductSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const url = editingProduct ? `/api/admin/products/${editingProduct.id}` : "/api/admin/products"
+      const method = editingProduct ? "PUT" : "POST"
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(productForm),
+      })
+
+      if (response.ok) {
+        setShowProductForm(false)
+        setEditingProduct(null)
+        setProductForm({
+          name: "",
+          price: 0,
+          description: "",
+          stock: 0,
+          available: true,
+          favorite: false,
+        })
+        fetchProducts()
+      } else {
+        const data = await response.json()
+        alert(`Error: ${data.error}`)
+      }
+    } catch (error) {
+      console.error("Error saving product:", error)
+      alert("Failed to save product")
+    }
+  }
+
   const deleteBarber = async (id: string) => {
     if (!confirm("Are you sure you want to delete this barber?")) return
 
@@ -226,6 +302,23 @@ export default function AdminPage() {
     } catch (error) {
       console.error("Error deleting office:", error)
       alert("Failed to delete office")
+    }
+  }
+
+  const deleteProduct = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this product?")) return
+
+    try {
+      const response = await fetch(`/api/admin/products/${id}`, { method: "DELETE" })
+      if (response.ok) {
+        fetchProducts()
+      } else {
+        const data = await response.json()
+        alert(`Error: ${data.error}`)
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error)
+      alert("Failed to delete product")
     }
   }
 
@@ -295,7 +388,7 @@ export default function AdminPage() {
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2">
               <Scissors className="w-6 h-6 text-amber-600" />
-              <span className="text-xl font-bold text-slate-900 font-serif">The Haircut</span>
+              <span className="text-xl font-bold text-slate-900 font-serif">The Sharp Edge</span>
               <span className="text-sm text-slate-500 ml-2">Admin Dashboard</span>
             </Link>
             <div className="flex items-center gap-4 text-sm text-slate-600">
@@ -313,7 +406,7 @@ export default function AdminPage() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-3xl font-bold text-slate-900 font-serif mb-2">Admin Dashboard</h1>
-              <p className="text-slate-600">Manage bookings, barbers, and branch locations</p>
+              <p className="text-slate-600">Manage bookings, barbers, branch locations, and products</p>
             </div>
           </div>
 
@@ -352,6 +445,17 @@ export default function AdminPage() {
               >
                 <Building2 className="w-4 h-4 inline mr-2" />
                 Branches
+              </button>
+              <button
+                onClick={() => setActiveTab("products")}
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === "products"
+                    ? "border-amber-500 text-amber-600"
+                    : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300"
+                }`}
+              >
+                <Package className="w-4 h-4 inline mr-2" />
+                Products
               </button>
             </nav>
           </div>
@@ -836,6 +940,200 @@ export default function AdminPage() {
                         className="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
                       >
                         {editingOffice ? "Update" : "Add"} Branch
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {activeTab === "products" && (
+          <>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-slate-900 font-serif">Manage Products</h2>
+              <button
+                onClick={() => {
+                  setShowProductForm(true)
+                  setEditingProduct(null)
+                  setProductForm({
+                    name: "",
+                    price: 0,
+                    description: "",
+                    stock: 0,
+                    available: true,
+                    favorite: false,
+                  })
+                }}
+                className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                Add Product
+              </button>
+            </div>
+
+            {loading ? (
+              <div className="p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto"></div>
+                <p className="text-slate-600 mt-2">Loading products...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <div key={product.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="text-lg font-bold text-slate-900">{product.name}</h3>
+                          {product.favorite && <Star className="w-4 h-4 text-amber-500 fill-current" />}
+                        </div>
+                        <p className="text-sm text-slate-600 mb-3">{product.description}</p>
+                        <div className="flex items-center gap-4 text-sm">
+                          <div className="flex items-center gap-1">
+                            <DollarSign className="w-4 h-4 text-green-600" />
+                            <span className="font-semibold text-green-600">${product.price}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Package className="w-4 h-4 text-slate-500" />
+                            <span className="text-slate-600">{product.stock} in stock</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            product.available ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {product.available ? "Available" : "Unavailable"}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-xs text-slate-500 mb-4">
+                      Added {new Date(product.createdAt).toLocaleDateString()}
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          setEditingProduct(product)
+                          setProductForm({
+                            name: product.name,
+                            price: product.price,
+                            description: product.description,
+                            stock: product.stock,
+                            available: product.available,
+                            favorite: product.favorite,
+                          })
+                          setShowProductForm(true)
+                        }}
+                        className="flex-1 px-3 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors text-sm"
+                      >
+                        <Edit3 className="w-4 h-4 inline mr-1" />
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteProduct(product.id)}
+                        className="flex-1 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm"
+                      >
+                        <X className="w-4 h-4 inline mr-1" />
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Product Form Modal */}
+            {showProductForm && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-xl p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+                  <h3 className="text-lg font-bold text-slate-900 mb-4">
+                    {editingProduct ? "Edit Product" : "Add New Product"}
+                  </h3>
+                  <form onSubmit={handleProductSubmit}>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Product Name</label>
+                      <input
+                        type="text"
+                        value={productForm.name}
+                        onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-amber-600"
+                        required
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Price ($)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={productForm.price}
+                        onChange={(e) => setProductForm({ ...productForm, price: Number.parseFloat(e.target.value) })}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-amber-600"
+                        required
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Description</label>
+                      <textarea
+                        value={productForm.description}
+                        onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-amber-600"
+                        rows={3}
+                        required
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Stock Quantity</label>
+                      <input
+                        type="number"
+                        min="0"
+                        value={productForm.stock}
+                        onChange={(e) => setProductForm({ ...productForm, stock: Number.parseInt(e.target.value) })}
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-amber-600"
+                        required
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={productForm.available}
+                          onChange={(e) => setProductForm({ ...productForm, available: e.target.checked })}
+                          className="rounded border-slate-300 text-amber-600 focus:ring-amber-600"
+                        />
+                        <span className="text-sm font-medium text-slate-700">Available for purchase</span>
+                      </label>
+                    </div>
+                    <div className="mb-6">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={productForm.favorite}
+                          onChange={(e) => setProductForm({ ...productForm, favorite: e.target.checked })}
+                          className="rounded border-slate-300 text-amber-600 focus:ring-amber-600"
+                        />
+                        <span className="text-sm font-medium text-slate-700">Mark as favorite</span>
+                      </label>
+                    </div>
+                    <div className="flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowProductForm(false)
+                          setEditingProduct(null)
+                        }}
+                        className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+                      >
+                        {editingProduct ? "Update" : "Add"} Product
                       </button>
                     </div>
                   </form>

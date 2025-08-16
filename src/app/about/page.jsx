@@ -72,7 +72,7 @@ const Page = () => {
     return colorMap[color] || 'bg-gray-100 text-gray-800';
   };
   return (
-    <div className="relative flex flex-col items-center justify-center overflow-hidden flex-1 py-5 h-full pb-20 mx-auto md:pb-10 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+    <div className="relative flex flex-col mt-16 items-center justify-center overflow-hidden flex-1 py-5 h-full pb-20 mx-auto md:pb-10 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
       <div className="flex mt-8 max-w-10/12 flex-col items-center justify-between py-6 lg:flex-row">
         <div className="relative z-40 lg:max-w-xl lg:pr-5">
           <div className="absolute w-full top-0 z-0 opacity-50 left-60">

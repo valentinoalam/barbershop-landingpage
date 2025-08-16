@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import LogoIcon from '../common/logo-icon'; // Adjust path as needed
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ShoppingBag } from 'lucide-react';
 
 function ActivePointer() {
   return (
@@ -44,6 +45,7 @@ function Header() {
   const navItems = [
     { name: 'About', href: '/about' },
     { name: 'Gallery', href: '/gallery' },
+    { name: 'Products', href: '/products' },
     { name: 'Contact', href: '/contact' }
   ];
 
@@ -93,12 +95,12 @@ function Header() {
           isScrolled ? 'text-black' : 'text-white'
         }`}>
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 text-lg font-bold tracking-tigh">
             <div className={`w-full h-full rounded-t-md transition-all duration-300 rounded-bl-lg ${isScrolled ? 'bg-transparent' : 'bg-white/90 mt-4'}`}><LogoIcon /></div> 
             {/* <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] font-playfair">
               The CutNeat
             </h2> */}
-          </div>
+          </Link>
         </div>
 
         {/* Right Navigation */}
@@ -124,6 +126,14 @@ function Header() {
               </Link>
             </div>
           ))}
+          <div className="flex gap-2">
+            {/* <button className="flex items-center justify-center w-10 h-10 bg-slate-700 hover:bg-slate-600 rounded-full transition-colors">
+              <Search className="w-5 h-5" />
+            </button> */}
+            <button className={`flex items-center justify-center w-10 h-10 hover:text-[#e6b02e] rounded-full transition-colors ${isScrolled? 'text-black': 'text-white'}`}>
+              <ShoppingBag className="w-5 h-5" />
+            </button>
+          </div>
           <button className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3c334] text-[#181611] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ml-4 font-inter ${
             isScrolled 
               ? 'hover:bg-[#e6b02e] shadow-md hover:shadow-lg' 

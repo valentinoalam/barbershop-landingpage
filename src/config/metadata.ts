@@ -36,10 +36,10 @@ export const METADATA: MetadataConfig = {
         siteName: "Haircut Barbershop",
         images: [
           {
-            url: `/web/Untitled.png`,
+            url: `/img/modern-vintage-barbershop.png`,
             width: 1200,
             height: 630,
-            alt: "Descriptive alt text for your OG image",
+            alt: "the haircut vintage barbershop",
           },
         ],
         locale: "en_US",
@@ -51,7 +51,7 @@ export const METADATA: MetadataConfig = {
         title: "Haircut Barbershop | Professional Haircuts & Grooming",
         description: "Experience the best haircut of your life. Our professional barbers are ready to give you the perfect look.",
         creator: "@haircutbarber",
-        images: [`${process.env.NEXT_PUBLIC_APP_URL}/twitter-image.jpg`],
+        images: [`${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`],
       },
       formatDetection: {
           email: false,

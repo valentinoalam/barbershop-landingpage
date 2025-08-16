@@ -3,6 +3,11 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 async function main() {
+  await prisma.category.deleteMany({})
+    await prisma.services.deleteMany({})
+    await prisma.office.deleteMany({})
+    await prisma.payMethods.deleteMany({})
+    await prisma.products.deleteMany({})
   const classicCategory = await prisma.category.create({
     data: {
       description: "Classic Barbershop Services",
@@ -77,19 +82,19 @@ async function main() {
     prisma.barber.create({
       data: {
         name: "Ethan Carter",
-        image: "/ethan-carter-barber.png",
+        image: "/img/capster/ethan-carter-barber.png",
       },
     }),
     prisma.barber.create({
       data: {
         name: "Liam Harper",
-        image: "/liam-harper-barber-portrait.png",
+        image: "/img/capster/liam-harper-barber-portrait.png",
       },
     }),
     prisma.barber.create({
       data: {
         name: "Noah Bennett",
-        image: "/noah-bennett-barber.png",
+        image: "/img/capster/noah-bennett-barber.png",
       },
     }),
   ])
