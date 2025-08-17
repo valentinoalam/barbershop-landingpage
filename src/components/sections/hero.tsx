@@ -158,31 +158,31 @@ function HeroSection() {
               <CarouselItem key={index} className="relative">
                 <div className="relative min-h-[480px] w-full h-screen overflow-hidden">
                   {/* Background Image with Gradient Light Effect */}
-                  <div 
-                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                      index === currentSlide 
-                        ? 'opacity-100 scale-100 blur-0' 
-                        : 'opacity-90 scale-110 blur-sm'
-                    }`}
-                    style={{
-                      backgroundImage: `
-                        linear-gradient(rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.0) 30%),
-                        /* Gradient light effect overlay */
-                        radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%),
-                        /* Golden spotlight effect */
-                        radial-gradient(ellipse at center, rgba(243,195,52,0.2) 0%, rgba(0,0,0,0) 70%),
-                        /* Dark overlay */
-                        linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%),
-                        /* Actual image */
-                        url("${slide.image}")
-                      `,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
+                  <div className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100 blur-0' : 'opacity-90 scale-110 blur-sm'}`}>
+                    <div className="absolute inset-0" style={{
                       filter: isTransitioning ? 'blur(2px)' : 'blur(0px)',
                       transform: isTransitioning ? 'scale(1.05)' : 'scale(1)',
                       transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }}
-                  />
+                    }}>
+                      <Image
+                        src={slide.image}
+                        alt="Slide background"
+                        fill
+                        className="object-cover object-center"
+                        sizes="100vw"
+                      />
+                      <div className="absolute inset-0" style={{
+                        background: `
+                          linear-gradient(rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.0) 30%),
+                          radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%),
+                          radial-gradient(ellipse at center, rgba(243,195,52,0.2) 0%, rgba(0,0,0,0) 70%),
+                          linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%)
+                        `,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                      }} />
+                    </div>
+                  </div>
 
                   {/* Liquid Displacement Overlay */}
                   <div 
