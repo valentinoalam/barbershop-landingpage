@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock, MapPin, Camera, Check } from "lucide-react"
+import Image from "next/image"
 
 interface Appointment {
   id: string
@@ -162,7 +164,7 @@ export default function AppointmentsPage() {
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <img
+                    <Image width={48} height={48}
                       src={appointment.barber.image || "/placeholder.svg"}
                       alt={appointment.barber.name}
                       className="w-12 h-12 rounded-full object-cover"
@@ -209,7 +211,7 @@ export default function AppointmentsPage() {
                     <div className="flex items-center gap-4">
                       {appointment.photoUrl ? (
                         <div className="flex items-center gap-2">
-                          <img
+                          <Image width={64} height={64}
                             src={appointment.photoUrl || "/placeholder.svg"}
                             alt="Finished haircut"
                             className="w-16 h-16 rounded-lg object-cover"

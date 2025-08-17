@@ -3,7 +3,7 @@ import { prisma } from "../../../../lib/prisma"
 
 export async function GET() {
   try {
-    const products = await prisma.product.findMany({
+    const products = await prisma.products.findMany({
       orderBy: {
         createdAt: "desc",
       },
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    const product = await prisma.product.create({
+    const product = await prisma.products.create({
       data: {
         name,
         price,

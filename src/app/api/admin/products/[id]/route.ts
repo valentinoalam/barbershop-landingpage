@@ -10,7 +10,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    const product = await prisma.product.update({
+    const product = await prisma.products.update({
       where: { id: params.id },
       data: {
         name,
@@ -33,14 +33,14 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   try {
     // Check if product has any associated purchase orders
     const purchaseOrders = await prisma.purchaseOrder.findMany({
-      where: { prodId: params.id },
+      where: { productId: params.id },
     })
 
     if (purchaseOrders.length > 0) {
       return NextResponse.json({ error: "Cannot delete product with existing purchase orders" }, { status: 400 })
     }
 
-    await prisma.product.delete({
+    await prisma.products.delete({
       where: { id: params.id },
     })
 

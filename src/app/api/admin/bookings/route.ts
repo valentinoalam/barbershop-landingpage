@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
+interface Where {appointmentDate:{gte:Date;lt:Date};status: string; barberId: string} 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -8,7 +9,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get("status")
     const barberId = searchParams.get("barberId")
 
-    const where: any = {}
+    const where: Where= {} as Where
 
     if (date) {
       const startDate = new Date(date)
