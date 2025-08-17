@@ -1,9 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const appointmentId = params.id
+    const { id: appointmentId } = await params
     const formData = await request.formData()
     const photo = formData.get("photo") as File
 
