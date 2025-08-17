@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { generateMetaData } from "@/lib/metadata"
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
+import { CartProvider } from "@/contexts/cart-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,13 +39,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="relative flex size-full min-h-screen flex-col bg-[#181611] dark group/design-root overflow-x-hidden" style={{ fontFamily: '"Space Grotesk", "Noto Sans", sans-serif' }}>
-          <div className="flex flex-col h-full layout-container grow">
-            <Header />
-            {children}
-            <Footer />
+        <CartProvider>
+          <div className="relative flex size-full min-h-screen flex-col bg-[#181611] dark group/design-root overflow-x-hidden" style={{ fontFamily: '"Space Grotesk", "Noto Sans", sans-serif' }}>
+            <div className="flex flex-col h-full layout-container grow">
+              <Header />
+              {children}
+              <Footer />
+            </div>
           </div>
-        </div>
+        </CartProvider>
       </body>
     </html>
   );
