@@ -1,10 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
+    // Destructure the id from the context.params object here.
+    const { id } = context.params;
     const { name, image } = await request.json()
-    const { id } = await params
 
     if (!name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 })
