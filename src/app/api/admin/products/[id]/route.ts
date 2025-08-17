@@ -33,11 +33,15 @@ export async function PUT(
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await params;
     // Check if product has any associated purchase orders
     const purchaseOrders = await prisma.purchaseOrder.findMany({
-      where: { productId: params.id },
+      where: { productId: id },
     })
 
     if (purchaseOrders.length > 0) {
@@ -45,7 +49,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     await prisma.products.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ message: "Product deleted successfully" })
