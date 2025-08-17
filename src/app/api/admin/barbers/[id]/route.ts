@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma"
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { name, image } = await request.json()
-    const { id } = params
+    const { id } = await params
 
     if (!name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 })
