@@ -3,11 +3,10 @@ import { prisma } from "@/lib/prisma"
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } } // Destructure params directly
 ) {
   try {
-    // Destructure the id from the context.params object here.
-    const { id } = context.params;
+    const { id } = params;
     const { name, image } = await request.json()
 
     if (!name) {
