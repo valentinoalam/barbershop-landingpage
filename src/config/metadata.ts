@@ -37,8 +37,8 @@ export const METADATA: MetadataConfig = {
         images: [
           {
             url: `${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`,
-            width: 1200,
-            height: 630,
+            width: 1024,
+            height: 1024,
             alt: "the Haircut Barbershop - Fresh Cuts & Styles",
           },
         ],
