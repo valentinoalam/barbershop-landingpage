@@ -32,11 +32,11 @@ export const METADATA: MetadataConfig = {
       openGraph: {
         title: "the Haircut Barbershop | Professional Haircuts & Grooming",
         description:  "Look and feel your best with a fresh haircut from our skilled barbers. Book your appointment today!",
-        url: "https://barbershop-landingpage-puce.vercel.app/",
+        url: `${process.env.NEXT_PUBLIC_APP_URL}`,
         siteName: "Haircut Barbershop",
         images: [
           {
-            url: `/img/modern-vintage-barbershop.png`,
+            url: `${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`,
             width: 1200,
             height: 630,
             alt: "the Haircut Barbershop - Fresh Cuts & Styles",
@@ -51,7 +51,7 @@ export const METADATA: MetadataConfig = {
         description: 'Get the perfect cut and style at our professional barbershop. Book your appointment online now.',
         card: "summary_large_image",
         creator: "@haircutbarber",
-        images: ['/img/modern-vintage-barbershop.png'],
+        images: [`${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`],
       },
       formatDetection: {
           email: false,
