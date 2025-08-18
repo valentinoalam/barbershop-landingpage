@@ -24,34 +24,34 @@ export const METADATA: MetadataConfig = {
           
         ],
         apple: [
-          { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+          { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
         ],
       },
       manifest: '/site.webmanifest',
       // Open Graph protocol for social media sharing
       openGraph: {
-        title: "",
-        description: "",
-        url: "https://haircut.com/",
+        title: "the Haircut Barbershop | Professional Haircuts & Grooming",
+        description:  "Look and feel your best with a fresh haircut from our skilled barbers. Book your appointment today!",
+        url: "https://barbershop-landingpage-puce.vercel.app/",
         siteName: "Haircut Barbershop",
         images: [
           {
             url: `/img/modern-vintage-barbershop.png`,
             width: 1200,
             height: 630,
-            alt: "the haircut vintage barbershop",
+            alt: "the Haircut Barbershop - Fresh Cuts & Styles",
           },
         ],
         locale: "en_US",
         type: "website",
       },
-      // Twitter Card
+      // Landing page specific Twitter Card
       twitter: {
+        title: 'Haircut Barbershop | Best Haircuts & Shaves',
+        description: 'Get the perfect cut and style at our professional barbershop. Book your appointment online now.',
         card: "summary_large_image",
-        title: "Haircut Barbershop | Professional Haircuts & Grooming",
-        description: "Experience the best haircut of your life. Our professional barbers are ready to give you the perfect look.",
         creator: "@haircutbarber",
-        images: [`${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`],
+        images: ['/img/modern-vintage-barbershop.png'],
       },
       formatDetection: {
           email: false,
@@ -100,10 +100,10 @@ export const METADATA: MetadataConfig = {
     
       // Additional metadata
       authors: [{ 
-          name: "Haircut Team", 
-          url: "https://haircut.com" }],
-      creator: 'Haircut Barbershop',
-      publisher: 'Haircut Barbershop',
+          name: "TinoKarya", 
+          url: "https://barbershop-landingpage-puce.vercel.app/" }],
+      creator: 'TinoKarya',
+      publisher: 'TinoKarya',
   },
   default: {
     // Basic metadata
@@ -125,34 +125,10 @@ export const METADATA: MetadataConfig = {
       'hair care'
     ],
   
-    // Open Graph protocol for social media sharing
-    // openGraph: {
-    //   title: "Haircut Barbershop | Professional Haircuts & Grooming",
-    //   description: "Look and feel your best with a fresh haircut from our skilled barbers. Book your appointment today!",
-    //   url: "https://haircut.com/", //"https://haircut.com/landing-page"
-    //   siteName: "Haircut Barbershop",
-    //   images: [
-    //     {
-    //       url: "https://haircut.com/og-image.jpg",
-    //       width: 1200,
-    //       height: 630,
-    //       alt: "Haircut Barbershop - Fresh Cuts & Styles",
-    //     },
-    //   ],
-    //   locale: "en_US",
-    //   type: "website",
-    // },
-      
-    // Landing page specific Twitter Card
-    // twitter: {
-    //   title: 'Haircut Barbershop | Best Haircuts & Shaves',
-    //   description: 'Get the perfect cut and style at our professional barbershop. Book your appointment online now.',
-    //   images: ['/images/twitter-barber-hero.jpg'],
-    // },
   
     // Canonical URL 
     alternates: {
-      canonical: "https://haircut.com/",
+      canonical: "https://barbershop-landingpage-puce.vercel.app/",
     },
   },
   about: {
