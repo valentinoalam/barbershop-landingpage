@@ -50,15 +50,8 @@ export const METADATA: MetadataConfig = {
         title: 'Haircut Barbershop | Best Haircuts & Shaves',
         description: 'Get the perfect cut and style at our professional barbershop. Book your appointment online now.',
         card: "summary_large_image",
-        creator: "@haircutbarber",
-        images: [
-          {
-            url: `${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`,
-            width: 1024,
-            height: 1024,
-            alt: "the Haircut Barbershop - Fresh Cuts & Styles",
-          },
-        ],
+        creator: "@tonyfranky",
+        images: [`${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`],
       },
       formatDetection: {
           email: false,
