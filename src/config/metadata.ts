@@ -51,7 +51,7 @@ export const METADATA: MetadataConfig = {
         description: 'Get the perfect cut and style at our professional barbershop. Book your appointment online now.',
         card: "summary_large_image",
         creator: "@tonyfranky",
-        images: ['/img/modern-vintage-barbershop.png'],
+        images: `${process.env.NEXT_PUBLIC_APP_URL}/img/modern-vintage-barbershop.png`,
       },
       formatDetection: {
           email: false,
