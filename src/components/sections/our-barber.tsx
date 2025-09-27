@@ -336,7 +336,7 @@ function OurBarbers() {
 
       {/* Barbers Grid */}
       <div className="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div ref={teamCardsContainerRef} className="flex flex-wrap items-stretch place-items-center gap-3 p-4">
+        <div ref={teamCardsContainerRef} className="flex flex-wrap h-fit items-stretch place-items-center gap-3 p-4">
           {branches[activeTab as keyof typeof branches].barbers.map((barber, index) => (
             <BarberCard
               key={`${activeTab}-${index}`}
