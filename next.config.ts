@@ -3,6 +3,7 @@ const nextConfig: NextConfig = {
   compiler: {
       styledComponents: true
   },
+  output: 'export',
   reactStrictMode: true,
   experimental: {
       workerThreads: false,
