@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import LogoIcon from '@/components/common/logo-icon'; // Adjust path as needed
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShoppingBag } from 'lucide-react';
+// import { ShoppingBag } from 'lucide-react';
 
 function ActivePointer() {
   return (
@@ -45,8 +45,8 @@ function Header() {
   const navItems = [
     { name: 'About', href: '/about' },
     { name: 'Gallery', href: '/gallery' },
-    { name: 'Products', href: '/products' },
-    { name: 'Contact', href: '/contact' }
+    { name: 'Products', href: '/shop/products' },
+    // { name: 'Contact', href: '/contact' }
   ];
 
   const isActive = (href: string) => {
@@ -66,7 +66,7 @@ function Header() {
       {/* Desktop Layout */}
       <div className="items-center justify-between hidden px-6 py-3 lg:flex xl:px-10">
         {/* Left Navigation */}
-        <nav className="flex items-center flex-1 gap-8">
+        <nav className="flex items-center justify-around w-full flex-1 gap-8">
           {navItems.slice(0, 2).map((item) => (
             <div key={item.name} className="flex items-center gap-2">
               {isActive(item.href) && <ActivePointer />}
@@ -91,7 +91,7 @@ function Header() {
         </nav>
 
         {/* Centered Logo */}
-        <div className={`flex items-center gap-4 absolute left-1/2 transform -translate-x-1/2 transition-colors duration-300 ${
+        <div className={`flex items-center gap-4 mx-36 w-fit transform transition-colors duration-300 ${
           isScrolled ? 'text-black' : 'text-white'
         }`}>
           {/* Logo */}
@@ -104,7 +104,7 @@ function Header() {
         </div>
 
         {/* Right Navigation */}
-        <nav className="flex items-center justify-end flex-1 gap-8">
+        <nav className="flex items-center justify-around w-full flex-1 gap-8">
           {navItems.slice(2).map((item) => (
             <div key={item.name} className="flex items-center gap-2">
               {isActive(item.href) && <ActivePointer />}
@@ -130,9 +130,9 @@ function Header() {
             {/* <button className="flex items-center justify-center w-10 h-10 bg-slate-700 hover:bg-slate-600 rounded-full transition-colors">
               <Search className="w-5 h-5" />
             </button> */}
-            <button className={`flex items-center justify-center w-10 h-10 hover:text-[#e6b02e] rounded-full transition-colors ${isScrolled? 'text-black': 'text-white'}`}>
+            {/* <button className={`flex items-center justify-center w-10 h-10 hover:text-[#e6b02e] rounded-full transition-colors ${isScrolled? 'text-black': 'text-white'}`}>
               <ShoppingBag className="w-5 h-5" />
-            </button>
+            </button> */}
           </div>
           <button className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3c334] text-[#181611] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ml-4 font-inter ${
             isScrolled 
