@@ -1,5 +1,5 @@
 import React from 'react';
-import FAQItem from '../cards/faq-item'; // Adjust path as needed
+import FAQItem from '@/components/cards/faq-item'; // Adjust path as needed
 
 function FAQSection() {
   const faqs = [

@@ -1,15 +1,15 @@
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
-  compiler: {
-      styledComponents: true
-  },
-  output: 'export',
-  reactStrictMode: true,
-  experimental: {
-      workerThreads: false,
-      cpus: 2 // Limit CPU usage
-  },
-  transpilePackages: ['next-mdx-remote'],
+  // compiler: {
+  //     styledComponents: true
+  // },
+  // output: 'export',
+  // reactStrictMode: true,
+  // experimental: {
+  //     workerThreads: false,
+  //     cpus: 2 // Limit CPU usage
+  // },
+  // transpilePackages: ['next-mdx-remote'],
   images: {
     remotePatterns: [
       {
@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         hostname: "**", // Allow all HTTPS domains
       },
     ], 
+    localPatterns: [
+      {
+        pathname: '/**',
+      },
+    ],
     // Define device sizes for responsive images
     deviceSizes: [
       320,  //xs
@@ -36,6 +41,7 @@ const nextConfig: NextConfig = {
       256,  // small images
       384   // medium images
     ],
+    qualities: [75, 85, 95], // Define image quality levels
     // All supported formats in order of preference
     formats: ['image/avif', 'image/webp'],
     // Disable static image imports (optional)

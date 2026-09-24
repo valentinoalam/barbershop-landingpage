@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckIcon from '../common/check-icon'; // Adjust path as needed
+import CheckIcon from '@/components/common/check-icon'; // Adjust path as needed
 
 function ServiceCard({ title, price, features }) {
   return (

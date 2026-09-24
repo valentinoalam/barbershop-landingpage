@@ -1,6 +1,6 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react';
-import BarberCard from '../cards/barber-card'; // Adjust path as needed
+import { useEffect, useRef, useState } from 'react';
+import BarberCard from '@/components/cards/barber-card'; // Adjust path as needed
 import Image from 'next/image';
 
 function OurBarbers() {
@@ -288,14 +288,13 @@ function OurBarbers() {
       <div className="mx-4 mb-6 group relative overflow-hidden rounded-xl">
           
         {/* Background Image with Tint */}
-        <div className="absolute inset-0 bg-cover bg-center h-full w-full">
+        <div className="absolute inset-0 bg-cover bg-center h-auto w-auto">
           <Image
             src={activeImage}
             alt={activeTab}
             fill
-            sizes="60vw"
-            loading="lazy"
-            objectFit="cover"
+            sizes="(max-width: 768px) 100vw, 60vw"
+            loading="eager"
             quality={85}
           />
           <div

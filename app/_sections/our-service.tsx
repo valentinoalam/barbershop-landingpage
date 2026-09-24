@@ -1,5 +1,5 @@
 import React from 'react';
-import ServiceCard from '../cards/service-cards'; // Adjust path as needed
+import ServiceCard from '@/components/cards/service-cards'; // Adjust path as needed
 
 function OurServices() {
   const services = [

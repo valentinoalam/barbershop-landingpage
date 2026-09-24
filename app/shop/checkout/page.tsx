@@ -5,8 +5,8 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, CreditCard, MapPin, User, Phone, Mail, ShoppingBag } from "lucide-react"
-import { useCart } from "../../contexts/cart-context"
-import FloatingChatButton from "../../components/FloatingChatButton"
+import { useCart } from "@/contexts/cart-context"
+import FloatingChatButton from "@/components/FloatingChatButton"
 
 interface CustomerInfo {
   firstName: string

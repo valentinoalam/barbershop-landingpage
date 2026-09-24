@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import TestimonialCard from '../cards/testimonial-card'; 
+import TestimonialCard from '@/components/cards/testimonial-card'; 
 import { Marquee } from "@/components/magicui/marquee";
 import { useIsMobile } from '@/hooks/use-mobile';
 

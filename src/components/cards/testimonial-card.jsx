@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
-import StarIcon from '../common/star-icon'; // Adjust path as needed
+import StarIcon from '@/components/common/star-icon'; // Adjust path as needed
 
 function TestimonialCard({ avatarUrl, name, timeAgo, rating, text }) {
   return (

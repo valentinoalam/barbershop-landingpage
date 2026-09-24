@@ -1,8 +1,8 @@
 "use client"
 import Link from "next/link"
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react"
-import { useCart } from "../../contexts/cart-context"
-import FloatingChatButton from "../../components/FloatingChatButton"
+import { useCart } from "@/contexts/cart-context"
+import FloatingChatButton from "@/components/FloatingChatButton"
 
 export default function CartPage() {
   const { state: cartState, dispatch: cartDispatch } = useCart()

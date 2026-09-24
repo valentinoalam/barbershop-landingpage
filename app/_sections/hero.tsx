@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -169,7 +168,7 @@ function HeroSection() {
                         alt="Slide background"
                         fill
                         className="object-cover object-center"
-                        sizes="100vw"
+                        sizes="100vw" loading="eager"
                       />
                       <div className="absolute inset-0" style={{
                         background: `

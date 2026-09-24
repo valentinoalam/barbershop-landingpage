@@ -4,7 +4,7 @@
 import Link from "next/link"
 import { MapPin, Phone, Clock, Mail, ArrowLeft } from "lucide-react"
 import { useState } from "react"
-import LocationMap from "../../components/LocationMap"
+import LocationMap from "@/components/LocationMap"
 import Image from "next/image"
 
 export default function LocationsPage() {

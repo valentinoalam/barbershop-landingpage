@@ -1,5 +1,5 @@
 import React from 'react';
-import CaretDownIcon from '../common/caretdown-icon'; // Adjust path as needed
+import CaretDownIcon from '@/components/common/caretdown-icon'; // Adjust path as needed
 
 function FAQItem({ question, answer }) {
   return (

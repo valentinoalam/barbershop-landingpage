@@ -1,5 +1,5 @@
 import React from 'react';
-import HaircutCard from '../cards/haircut-card'; // Adjust path as needed
+import HaircutCard from '@/components/cards/haircut-card'; // Adjust path as needed
 
 function FeaturedHaircuts() {
   const haircuts = [

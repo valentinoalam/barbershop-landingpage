@@ -71,7 +71,7 @@ export const HairstyleCard = ({
             width={300} 
             height={300} 
             src={image} 
-            alt={name}
+            alt={name} loading="eager"
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           />
           

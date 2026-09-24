@@ -1,10 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { Share2, Link as LinkLogo } from 'lucide-react';
-import Icons from '../icons/socialIcon';
+import Icons from '@/componentsicons/socialIcon';
 import { cn } from '@/lib/utils';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { ShinyButton } from '../ui/shiny-button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/componentsui/dropdown-menu';
+import { ShinyButton } from '@/componentsui/shiny-button';
 import { useToast } from '@/hooks/use-toast';
 
 type SocialPlatform = 'copy' | 'twitter' | 'facebook' | 'linkedin' | 'whatsapp' | 'native';

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import LogoIcon from '../common/logo-icon'; // Adjust path as needed
+import LogoIcon from '@/components/common/logo-icon'; // Adjust path as needed
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShoppingBag } from 'lucide-react';
