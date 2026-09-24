@@ -91,7 +91,7 @@ function Header() {
         </nav>
 
         {/* Centered Logo */}
-        <div className={`flex items-center gap-4 mx-36 w-fit transform transition-colors duration-300 ${
+        <div className={`flex items-center gap-4 mx-12 w-fit transform transition-colors duration-300 ${
           isScrolled ? 'text-black' : 'text-white'
         }`}>
           {/* Logo */}
