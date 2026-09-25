@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
   Carousel,
@@ -43,6 +42,8 @@ const defaultSlides = [
   }
 ];
 
+const blurDataURL =
+  "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Crect width='8' height='5' fill='%20181611'/%3E%3C/svg%3E";
 async function getHeroImages(): Promise<ImageProps[]> {
   try {
     const response = await fetch('/api/hero-images');
@@ -55,16 +56,26 @@ async function getHeroImages(): Promise<ImageProps[]> {
 }
 
 function HeroSection() {
-  const [slides, setSlides] = useState<Slide[]>([]);
+  const [slides, setSlides] = useState<Slide[]>(() =>
+    defaultSlides.map(slide => ({
+      ...slide,
+      image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    }))
+  );
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [api, setApi] = useState<CarouselApi>();
-  const [loading, setLoading] = useState(true);
 
-  // Load images from API route
+  // Track status loading gambar individual untuk efek blur-to-clear
+  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+
+  const handleImageLoad = (index: number) => {
+    setLoadedImages(prev => ({ ...prev, [index]: true }));
+  };
+
+  // Load images dari API secara asynchronous di background
   useEffect(() => {
     const loadImages = async () => {
-      setLoading(true);
       try {
         const heroImages = await getHeroImages();
         
@@ -74,21 +85,9 @@ function HeroSection() {
             ...defaultSlides[index % defaultSlides.length]
           }));
           setSlides(loadedSlides);
-        } else {
-          // Fallback to default slides with placeholder images
-          setSlides(defaultSlides.map(slide => ({
-            ...slide,
-            image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-          })));
         }
       } catch (error) {
-        console.error('Error loading images:', error);
-        setSlides(defaultSlides.map(slide => ({
-          ...slide,
-          image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-        })));
-      } finally {
-        setLoading(false);
+        console.error('Error loading hero images:', error);
       }
     };
     
@@ -111,35 +110,35 @@ function HeroSection() {
 
   // Auto-advance carousel
   useEffect(() => {
-    if (!api || loading || slides.length === 0) return;
+    if (!api || slides.length === 0) return;
     
     const interval = setInterval(() => {
       api.scrollNext();
     }, 5000);
     
     return () => clearInterval(interval);
-  }, [api, loading, slides.length]);
+  }, [api, slides.length]);
 
   const goToSlide = useCallback((index: number) => {
     if (!api || isTransitioning || index === currentSlide) return;
     api.scrollTo(index);
   }, [api, isTransitioning, currentSlide]);
 
-  // Show loading state while images are being loaded
-  if (loading) {
-    return (
-      <div className="@container w-full">
-        <div className="@[480px]:p-0">
-          <Card className="w-full bg-gray-900 border-0">
-            <CardContent className="flex min-h-[480px] flex-col gap-6 items-center justify-center p-4">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f3c334]"></div>
-              <p className="text-sm text-white">Loading hero images...</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
+  // // Show loading state while images are being loaded
+  // if (loading) {
+  //   return (
+  //     <div className="@container w-full">
+  //       <div className="@[480px]:p-0">
+  //         <Card className="w-full bg-gray-900 border-0">
+  //           <CardContent className="flex min-h-[480px] flex-col gap-6 items-center justify-center p-4">
+  //             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f3c334]"></div>
+  //             <p className="text-sm text-white">Loading hero images...</p>
+  //           </CardContent>
+  //         </Card>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="@container h-screen relative w-full">
@@ -153,7 +152,10 @@ function HeroSection() {
           }}
         >
           <CarouselContent className="relative">
-            {slides.map((slide, index) => (
+            {slides.map((slide, index) => {
+              const isLoaded = loadedImages[index];
+
+              return (
               <CarouselItem key={index} className="relative">
                 <div className="relative min-h-[480px] w-full h-screen overflow-hidden">
                   {/* Background Image with Gradient Light Effect */}
@@ -165,10 +167,16 @@ function HeroSection() {
                     }}>
                       <Image
                         src={slide.image}
-                        alt="Slide background"
+                        alt={slide.title}
                         fill
-                        className="object-cover object-center"
-                        sizes="100vw" loading="eager"
+                        priority={index === 0}
+                        placeholder="blur"
+                        blurDataURL={blurDataURL}
+                        onLoad={() => handleImageLoad(index)}
+                        className={`object-cover object-center transition-all duration-700 ease-out ${
+                          isLoaded ? 'blur-0 scale-100' : 'blur-xl scale-105'
+                        }`}
+                        sizes="100vw"
                       />
                       <div className="absolute inset-0" style={{
                         background: `
@@ -218,7 +226,7 @@ function HeroSection() {
                   </div>
                 </div>
               </CarouselItem>
-            ))}
+            )})}
           </CarouselContent>
 
           {/* Custom Navigation Arrows with Glassmorphism */}
