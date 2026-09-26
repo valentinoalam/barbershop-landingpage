@@ -1,4 +1,5 @@
-import React, { Suspense, lazy } from 'react';
+'use client'
+import { Suspense, lazy } from 'react';
 import HeroSection from './_sections/hero';
 import FloatingChatButton from '@/components/chat-us';
 import BackgroundAudio from '../src/components/backgroundAudio';
@@ -25,7 +26,7 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <div className="flex flex-col justify-center flex-1 py-5 mx-auto w-full px-4 sm:px-6 md:px-8 max-w-[960px]">
+      <div className="flex flex-col justify-center flex-1 py-5 mx-auto w-full px-4 sm:px-6 md:px-8 max-w-240">
         <div className="w-full space-y-16 layout-content-container">
           <Suspense fallback={<SectionPlaceholder minHeight={400} />}>
             <FeaturedHaircuts />

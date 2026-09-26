@@ -285,8 +285,8 @@ function OurBarbers() {
           <Image
             src={activeImage}
             alt={activeTab}
-            fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            fill
             className="object-cover"
             loading="eager"
             quality={85}
