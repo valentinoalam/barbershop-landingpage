@@ -1,6 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import HeroSection from './_sections/hero';
 import FloatingChatButton from '@/components/chat-us';
+import BackgroundAudio from '../src/components/backgroundAudio';
+
 // Lazy load all sections except Hero (which is above the fold)
 const FeaturedHaircuts = lazy(() => import('./_sections/featured-hairstyles'));
 const OurBarbers = lazy(() => import('./_sections/our-barber'));
@@ -60,6 +62,7 @@ export default function Home() {
           <FloatingChatButton />
         </div>
       </div>
+      <BackgroundAudio />
     </>
   )
 }

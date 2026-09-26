@@ -11,7 +11,7 @@ function OurBarbers() {
     { id: 'westside', label: 'Westside', img: '/img/shops/westside.png' },
     { id: 'eastside', label: 'Eastside', img: '/img/shops/eastside.png' },
   ];
-  const [activeImage, setActiveImage] = useState('/img/shops/downtown.png')
+  const activeImage = tabs[activeTab ? tabs.findIndex(tab => tab.id === activeTab) : 0].img;
   const branches = {
     downtown: {
       name: "The Haircut - Downtown",
@@ -253,14 +253,7 @@ function OurBarbers() {
     };
 
   }, []);
-  useEffect(()=>{
-    function getTabById(tabId: string) {
-      return tabs.find(tab => tab.id === tabId);
-    }
-    const selectedTab = getTabById(activeTab)
-    if(selectedTab) setActiveImage(selectedTab.img)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[activeTab])
+
   return (
     <>
       <h2 ref={subtitleRef} className="text-white text-4xl font-playfair font-bold leading-tight tracking-[-0.015em] px-4 pt-5">Our Barbers</h2>
@@ -293,7 +286,8 @@ function OurBarbers() {
             src={activeImage}
             alt={activeTab}
             fill
-            sizes="(max-width: 768px) 100vw, 60vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
             loading="eager"
             quality={85}
           />
@@ -306,7 +300,7 @@ function OurBarbers() {
         </div>
         
         {/* Gradient Overlay for Better Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/40"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-black/60 via-transparent to-black/40"></div>
         {/* Animated Background Particles */}
         <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
             <div ref={particlesContainerRef} id="particles" className="h-full float mix-blend-multiply w-full"></div>
@@ -316,13 +310,13 @@ function OurBarbers() {
         <div className="relative z-10 px-8 py-12 text-center">
           <h3 className="text-white text-[42px] md:text-[52px] font-black leading-[0.9] tracking-[-0.02em] drop-shadow-2xl">
             <span className="block text-[24px] md:text-[28px] font-medium opacity-80 mb-1">THE HAIRCUT</span>
-            <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent font-black">
+            <span className="bg-linear-to-r from-white via-gray-100 to-white bg-clip-text text-transparent font-black">
               {branches[activeTab as keyof typeof branches].name.split(' - ')[1]?.toUpperCase()}
             </span>
           </h3>
           
           {/* Decorative Line */}
-          <div className="mx-auto mt-4 w-24 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-60"></div>
+          <div className="mx-auto mt-4 w-24 h-1 bg-linear-to-r from-transparent via-white to-transparent opacity-60"></div>
         </div>
         
         {/* Corner Decorations */}
@@ -334,7 +328,7 @@ function OurBarbers() {
       </div>
 
       {/* Barbers Grid */}
-      <div className="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-none] [&::-webkit-scrollbar]:hidden">
         <div ref={teamCardsContainerRef} className="flex flex-wrap h-fit items-stretch place-items-center gap-3 p-4">
           {branches[activeTab as keyof typeof branches].barbers.map((barber, index) => (
             <BarberCard
