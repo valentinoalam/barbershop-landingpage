@@ -22,7 +22,7 @@ export default function BackgroundAudio() {
   return (
     <div style={{ position: 'fixed', bottom: '20px', left: '20px', zIndex: 1000 }}>
       {/* Element HTML5 Audio */}
-      <audio ref={audioRef} loop src="/barbershop-scissors-sound.mp3" />
+      <audio ref={audioRef} autoPlay loop src="/barbershop-scissors-sound.mp3" />
 
       {/* Tombol Kontrol */}
       <button
