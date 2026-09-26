@@ -1,11 +1,42 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function BackgroundAudio() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  useEffect(() => {
+    
+    const playAudioOnInteraction = () => {
+      if (audioRef.current) {
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true); // Tandai bahwa audio sudah berhasil diputar
+            // Hapus event listener setelah berhasil diputar
+            window.removeEventListener('scroll', playAudioOnInteraction);
+            window.removeEventListener('click', playAudioOnInteraction);
+            window.removeEventListener('touchstart', playAudioOnInteraction);
+            window.removeEventListener('keydown', playAudioOnInteraction);
+          })
+          .catch((err) => console.log("Gagal memutar audio:", err));
+      }
+    };
 
+    // Dengarkan interaksi pertama pengguna
+    window.addEventListener('scroll', playAudioOnInteraction);
+    window.addEventListener('click', playAudioOnInteraction);
+    window.addEventListener('touchstart', playAudioOnInteraction);
+    window.addEventListener('keydown', playAudioOnInteraction);
+
+    return () => {
+      window.removeEventListener('scroll', playAudioOnInteraction);
+      window.removeEventListener('click', playAudioOnInteraction);
+      window.removeEventListener('touchstart', playAudioOnInteraction);
+      window.removeEventListener('keydown', playAudioOnInteraction);
+    };
+  }, []);
+  
   const togglePlay = () => {
     if (!audioRef.current) return;
 
@@ -22,7 +53,7 @@ export default function BackgroundAudio() {
   return (
     <div style={{ position: 'fixed', bottom: '20px', left: '20px', zIndex: 1000 }}>
       {/* Element HTML5 Audio */}
-      <audio ref={audioRef} autoPlay loop src="/barbershop-scissors-sound.mp3" />
+      <audio ref={audioRef} loop src="/barbershop-scissors-sound.mp3" />
 
       {/* Tombol Kontrol */}
       <button
