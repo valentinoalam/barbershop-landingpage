@@ -9,7 +9,7 @@ const Newsletter = () => {
     setEmail(event.target.value); // Update email state on change
   };
 
-  const handleSubscribe = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validasi input email sederhana
@@ -58,24 +58,24 @@ const Newsletter = () => {
           </div>
           <div className="flex flex-1 justify-center">
             <label className="flex flex-col min-w-40 h-14 max-w-120 flex-1 @[480px]:h-16">
-              <div className="flex w-full flex-1 items-stretch rounded-xl h-full">
+              <form onSubmit={handleSubscribe} className="flex w-full flex-1 items-stretch rounded-4xl bg-[#393528] h-full">
+               
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#393528] focus:border-none h-full placeholder:text-[#bab29c] px-4 rounded-r-none border-r-0 pr-2 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal"
+                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-white focus:outline-0 focus:ring-0 border-none focus:border-none h-full placeholder:text-[#bab29c] px-4 border-r-0 pr-2 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal"
                   value={email}
                   onChange={handleEmailChange}
                 />
-                <div className="flex items-center justify-center rounded-r-xl border-l-0 border-none bg-[#393528] pr-2">
-                  <button
-                    type="submit"
+                <div className="flex items-center justify-center border-l-0 border-none pr-2">
+                  <button type='submit'
                     className="flex min-w-21 max-w-120 cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#f3c334] text-[#181611] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]"
-                    onClick={handleSubscribe}
+                   
                   >
                     <span className="truncate">Subscribe</span>
                   </button>
                 </div>
-              </div>
+              </form>
             </label>
           </div>
         </div>

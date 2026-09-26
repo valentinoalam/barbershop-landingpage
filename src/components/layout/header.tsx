@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import LogoIcon from '@/components/common/logo-icon'; // Adjust path as needed
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-// import { ShoppingBag } from 'lucide-react';
 
 function ActivePointer() {
   return (
@@ -134,10 +133,10 @@ function Header() {
               <ShoppingBag className="w-5 h-5" />
             </button> */}
           </div>
-          <button className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3c334] text-[#181611] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ml-4 font-inter ${
+          <button className={`flex min-w-21 max-w-120 cursor-pointer hover:bg-[#e6b02e] items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3c334] text-[#181611] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ml-4 font-inter ${
             isScrolled 
-              ? 'hover:bg-[#e6b02e] shadow-md hover:shadow-lg' 
-              : 'hover:bg-[#e6b02e] hover:shadow-xl'
+              ? 'shadow-md hover:shadow-lg' 
+              : 'hover:shadow-xl'
           }`}>
             <span className="truncate">Book Now</span>
           </button>
@@ -189,12 +188,12 @@ function Header() {
               <div key={item.name} className="flex items-center gap-3 py-2">
                 {isActive(item.href) && <ActivePointer />}
                 <Link 
-                  className={`text-base font-medium leading-normal transition-colors duration-200 font-inter ${
+                  className={`text-base font-medium leading-normal transition-colors duration-200 font-inter hover:text-[#f3c334] ${
                     isActive(item.href) 
-                      ? 'text-[#f3c334]' 
+                      ? 'text-[#f3c330]' 
                       : isScrolled 
-                        ? 'text-black hover:text-[#f3c334]' 
-                        : 'text-white hover:text-[#f3c334]'
+                        ? 'text-black' 
+                        : 'text-white'
                   }`} 
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -203,10 +202,10 @@ function Header() {
                 </Link>
               </div>
             ))}
-            <button className={`flex w-full sm:w-auto sm:max-w-[200px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-[#f3c334] text-[#181611] text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 mt-4 font-inter ${
+            <button className={`flex w-full sm:w-auto sm:max-w-50 cursor-pointer hover:bg-[#e6b02e] items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-[#f3c334] text-[#181611] text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 mt-4 font-inter ${
               isScrolled 
-                ? 'hover:bg-[#e6b02e] shadow-md hover:shadow-lg' 
-                : 'hover:bg-[#e6b02e] hover:shadow-xl'
+                ? 'shadow-md hover:shadow-lg' 
+                : 'hover:shadow-xl'
             }`}>
               <span className="truncate">Book Now</span>
             </button>

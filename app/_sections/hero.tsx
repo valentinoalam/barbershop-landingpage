@@ -157,7 +157,7 @@ function HeroSection() {
 
               return (
               <CarouselItem key={index} className="relative">
-                <div className="relative min-h-[480px] w-full h-screen overflow-hidden">
+                <div className="relative min-h-120 w-full h-screen overflow-hidden">
                   {/* Background Image with Gradient Light Effect */}
                   <div className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100 blur-0' : 'opacity-90 scale-110 blur-sm'}`}>
                     <div className="absolute inset-0" style={{
@@ -202,9 +202,8 @@ function HeroSection() {
                       transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                   />
-
                   {/* Content Overlay */}
-                  <div className="relative z-10 flex min-h-[480px] flex-col gap-6 @[480px]:gap-8 items-center justify-center p-4">
+                  <div className="relative z-10 flex min-h-120 flex-col gap-6 @[480px]:gap-8 items-center justify-center p-4">
                     <div 
                       className={`max-w-xl pt-40 flex font-bebas flex-col gap-2 text-center transition-all duration-500 ${
                         isTransitioning && index === currentSlide ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
@@ -217,12 +216,11 @@ function HeroSection() {
                         {slide.subtitle}
                       </h2>
                     </div>
-                    <Button
-                      size="lg"
-                      className="bg-[#f3c334] hover:bg-[#e6b82d] text-[#181611] font-bold transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-full px-6 @[480px]:px-8"
+                    <button onClick={e=>console.log("click")}
+                      className="bg-[#f3c334] hover:bg-[#e6b82d] text-[#181611] h-10 has-[>svg]:px-4 font-bold transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg rounded-full px-6 @[480px]:px-8"
                     >
                       Book Now
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </CarouselItem>

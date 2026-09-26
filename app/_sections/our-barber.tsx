@@ -282,13 +282,12 @@ function OurBarbers() {
           
         {/* Background Image with Tint */}
         <div className="absolute inset-0 bg-cover bg-center h-auto w-auto">
-          <Image
+          <Image fill
             src={activeImage}
             alt={activeTab}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            fill
+            sizes="90vw, (max-width: 768px) 30vw"
             className="object-cover"
-            loading="eager"
+            loading="lazy"
             quality={85}
           />
           <div

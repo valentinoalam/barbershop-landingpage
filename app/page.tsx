@@ -1,18 +1,19 @@
 'use client'
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic'
 import HeroSection from './_sections/hero';
 import FloatingChatButton from '@/components/chat-us';
 import BackgroundAudio from '../src/components/backgroundAudio';
 
 // Lazy load all sections except Hero (which is above the fold)
-const FeaturedHaircuts = lazy(() => import('./_sections/featured-hairstyles'));
-const OurBarbers = lazy(() => import('./_sections/our-barber'));
-const OurServices = lazy(() => import('./_sections/our-service'));
-const Gallery = lazy(() => import('./_sections/gallery'));
-const Testimonials = lazy(() => import('./_sections/testimonial'));
-const FAQSection = lazy(() => import('./_sections/faq'));
-const Newsletter = lazy(() => import('./_sections/newsletter'));
-const ContactUs = lazy(() => import('./_sections/contact-us'));
+const FeaturedHaircuts = dynamic(() => import('./_sections/featured-hairstyles'), { ssr: false });
+const OurBarbers = dynamic(() => import('./_sections/our-barber'), { ssr: false });
+const OurServices = dynamic(() => import('./_sections/our-service'), { ssr: false });
+const Gallery = dynamic(() => import('./_sections/gallery'), { ssr: false });
+const Testimonials = dynamic(() => import('./_sections/testimonial'), { ssr: false });
+const FAQSection = dynamic(() => import('./_sections/faq'), { ssr: false });
+const Newsletter = dynamic(() => import('./_sections/newsletter'), { ssr: false });
+const ContactUs = dynamic(() => import('./_sections/contact-us'), { ssr: false });
 
 // Placeholder component for loading states
 const SectionPlaceholder = ({ minHeight = 300 }: { minHeight?: number }) => (

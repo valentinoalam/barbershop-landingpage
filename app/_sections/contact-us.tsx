@@ -141,13 +141,13 @@ export default function LocationsPage() {
             {activeLocation && (
               <>
                 {/* Location Image */}
-                <div className="h-64 bg-gradient-to-br from-amber-400/20 to-slate-700 relative overflow-hidden">
-                  <Image fill
+                <div className="h-64 bg-linear-to-br from-amber-400/20 to-slate-700 relative overflow-hidden">
+                  <Image fill sizes="(max-width: 768px) 60vw, 100vw"
                     src={`${activeLocation.image}?height=256&width=400&query=${activeLocation.name} modern barbershop interior`}
                     alt={activeLocation.name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-900/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <h3 className="text-2xl font-serif font-bold text-white mb-1">{activeLocation.name}</h3>
                     <p className="text-amber-400 font-medium">Managed by {activeLocation.manager}</p>
@@ -159,11 +159,11 @@ export default function LocationsPage() {
                   {/* Address & Contact */}
                   <div className="space-y-3 mb-6">
                     <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" />
+                      <MapPin className="w-5 h-5 text-amber-400 mt-0.5 shrink-0" />
                       <p className="text-slate-300">{activeLocation.address}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Phone className="w-5 h-5 text-amber-400 flex-shrink-0" />
+                      <Phone className="w-5 h-5 text-amber-400 shrink-0" />
                       <a
                         href={`tel:${activeLocation.phone}`}
                         className="text-slate-300 hover:text-amber-400 transition-colors"
@@ -172,7 +172,7 @@ export default function LocationsPage() {
                       </a>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Mail className="w-5 h-5 text-amber-400 flex-shrink-0" />
+                      <Mail className="w-5 h-5 text-amber-400 shrink-0" />
                       <a
                         href={`mailto:${activeLocation.email}`}
                         className="text-slate-300 hover:text-amber-400 transition-colors"
