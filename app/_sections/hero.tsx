@@ -76,12 +76,19 @@ function HeroSection() {
   };
 
   // Load images dari API secara asynchronous di background
+  const autoplayPlugin = React.useMemo(
+    () => Autoplay({ delay: 5000, stopOnInteraction: true }),
+    []
+  );
+
+  // Load Images Effect
   useEffect(() => {
+    let isMounted = true;
     const loadImages = async () => {
       try {
         const heroImages = await getHeroImages();
         
-        if (heroImages.length > 0) {
+        if (isMounted && heroImages.length > 0) {
           const loadedSlides = heroImages.map((image, index) => ({
             image: image.src,
             ...defaultSlides[index % defaultSlides.length]
@@ -94,53 +101,36 @@ function HeroSection() {
     };
     
     loadImages();
+    return () => { isMounted = false; };
   }, []);
 
-  // Handle carousel API
+  // 2. Handle carousel API with proper cleanup & state sync
   useEffect(() => {
     if (!api) return;
 
-    api.on("select", () => {
+    const onSelect = () => {
       const newIndex = api.selectedScrollSnap();
-      if (newIndex !== currentSlide) {
-        setIsTransitioning(true);
-        setCurrentSlide(newIndex);
-        setTimeout(() => setIsTransitioning(false), 300);
-      }
-    });
-  }, [api, currentSlide]);
+      setCurrentSlide(newIndex);
+      setIsTransitioning(true);
+      const timer = setTimeout(() => setIsTransitioning(false), 300);
+      return () => clearTimeout(timer);
+    };
 
-  // Auto-advance carousel
-  useEffect(() => {
-    if (!api || slides.length === 0) return;
-    
-    const interval = setInterval(() => {
-      api.scrollNext();
-    }, 5000);
-    
-    return () => clearInterval(interval);
-  }, [api, slides.length]);
+    api.on("select", onSelect);
+
+    // Cleanup listener ketika unmount/api change
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]); // Hapus currentSlide dari dependency array agar listener tidak re-bind terus
+
+  // 3. Auto-advance manual (setInterval) DIHAPUS karena sudah memakai plugin Autoplay
 
   const goToSlide = useCallback((index: number) => {
     if (!api || isTransitioning || index === currentSlide) return;
     api.scrollTo(index);
   }, [api, isTransitioning, currentSlide]);
 
-  // // Show loading state while images are being loaded
-  // if (loading) {
-  //   return (
-  //     <div className="@container w-full">
-  //       <div className="@[480px]:p-0">
-  //         <Card className="w-full bg-gray-900 border-0">
-  //           <CardContent className="flex min-h-[480px] flex-col gap-6 items-center justify-center p-4">
-  //             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f3c334]"></div>
-  //             <p className="text-sm text-white">Loading hero images...</p>
-  //           </CardContent>
-  //         </Card>
-  //       </div>
-  //     </div>
-  //   );
-  // }
   return (
     <div className="@container h-screen relative w-full">
       <div className="@[480px]:p-0">
@@ -152,7 +142,7 @@ function HeroSection() {
             loop: true,
             duration: 60,
           }}
-          plugins={[Autoplay({ delay: 2000, stopOnInteraction: true })]}
+          plugins={[autoplayPlugin]}
         >
           <CarouselContent className="relative">
             {slides.map((slide, index) => {
