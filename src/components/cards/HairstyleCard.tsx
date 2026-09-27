@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { X, Clock, Star, Scissors } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import ImagePreview from "../showImage";
 
 interface HairstyleCardProps {
   id: string;
@@ -14,7 +15,7 @@ interface HairstyleCardProps {
   image: string;
   description: string;
   timeRequired?: string;
-  toolsNeeded?: string[];
+  gallery?: string[];
   tips?: string[];
 }
 
@@ -25,7 +26,7 @@ export const HairstyleCard = ({
   image, 
   description,
   timeRequired = "30-45 min",
-  toolsNeeded = ["Hair brush", "Hair ties", "Bobby pins"],
+  gallery = [],
   tips = ["Work with slightly damp hair for better hold", "Practice makes perfect!"]
 }: HairstyleCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -42,7 +43,7 @@ export const HairstyleCard = ({
 
   const getDifficultyStars = (difficulty: string) => {
     const level = difficulty.toLowerCase() === 'easy' ? 1 : 
-                 difficulty.toLowerCase() === 'medium' ? 2 : 3;
+                  difficulty.toLowerCase() === 'medium' ? 2 : 3;
     return Array.from({ length: 3 }, (_, i) => (
       <Star 
         key={i} 
@@ -54,7 +55,7 @@ export const HairstyleCard = ({
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <Card 
-        className="group relative gap-0 py-0 overflow-hidden border-0 shadow-md hover:shadow-[var(--card-hover)] transition-[var(--transition-smooth)] bg-card cursor-pointer"
+        className="group relative gap-0 py-0 overflow-hidden border-0 shadow-md hover:shadow-(--card-hover) transition-(--transition-smooth) bg-card cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => setIsModalOpen(true)}
@@ -91,7 +92,7 @@ export const HairstyleCard = ({
       </Card>
 
       {/* Modal Content */}
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto overflow-x-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-left space-x-5 text-xl">
             <span>{name}</span>
@@ -134,25 +135,40 @@ export const HairstyleCard = ({
             <p className="text-muted-foreground leading-relaxed">{description}</p>
           </div>
 
-          {/* Tools Needed */}
-          <div>
-            <h3 className="text-lg font-semibold mb-3">Tools Needed</h3>
-            <div className="flex flex-wrap gap-2">
-              {toolsNeeded.map((tool, index) => (
-                <Badge key={index} variant="outline" className="text-sm">
-                  {tool}
-                </Badge>
-              ))}
-            </div>
+          
+          <p className="text-xs text-center mt-2 text-slate-600 group-hover:text-primary transition-colors">
+            Click to preview
+          </p>
+          {/* Menampilkan daftar gambar tambahan dari folder */}
+          {gallery && gallery.length > 0 && (
+          <div 
+            className={`gap-2 py-2 ${
+              gallery.length >= 5 
+                ? 'grid grid-cols-6' 
+                : `flex`
+            }`}
+          >
+            {gallery.map((imgUrl, index) => (
+              <div key={index} className="w-full">
+                <ImagePreview 
+                  image={{ 
+                    mediaUrl: imgUrl, 
+                    name: `${name} view${index + 1}`, 
+                    width: 100, 
+                    height: 100 
+                  }}
+                />
+              </div>
+            ))}
           </div>
-
+        )}
           {/* Tips */}
           <div>
             <h3 className="text-lg font-semibold mb-3">Pro Tips</h3>
             <ul className="space-y-2">
               {tips.map((tip, index) => (
                 <li key={index} className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                  <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0" />
                   <p className="text-sm text-muted-foreground">{tip}</p>
                 </li>
               ))}

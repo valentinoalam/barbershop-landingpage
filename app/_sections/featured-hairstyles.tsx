@@ -10,7 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { hairstyles, categories } from "@/data/hairstyles";
+import { categories, hairstyles } from "@/data/hairstyles";
 import { Scissors } from "lucide-react";
 
 const FeaturedHaircuts = () => {
@@ -27,7 +27,7 @@ const FeaturedHaircuts = () => {
   }, [activeCategory, searchTerm]);
 
   return (
-    <section className="overflow-x-visible mt-5 mb-14 [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <section className="overflow-x-visible mt-5 mb-14 [-ms-scrollbar-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
       <div className="container mx-auto text-center">
         <div className="inline-flex justify-center px-4 pt-5">
           <h2 className="text-white text-2xl font-bold md:text-6xl leading-tight tracking-[-0.015em]">Featured Haircuts</h2>
@@ -91,6 +91,7 @@ const FeaturedHaircuts = () => {
                       difficulty={hairstyle.difficulty}
                       image={hairstyle.image}
                       description={hairstyle.description}
+                      gallery={hairstyle.gallery}
                     />
                   </CarouselItem>
                 ))}

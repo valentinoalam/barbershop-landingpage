@@ -61,7 +61,7 @@ export default function BackgroundAudio() {
         style={{
           padding: '5px 5px',
           borderRadius: '20px',
-          border: '1px solid #ccc',
+          border: isPlaying ? '1px solid #ccc' : 'none',
           cursor: 'pointer',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         }}

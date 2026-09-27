@@ -1,8 +1,10 @@
 {
   "name": "cutneat",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
+    "update-hairstyles": "node scripts/update-hairstyles.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -17,6 +19,7 @@
     "seed": "node --loader ts-node/esm prisma/seed.ts"
   },
   "dependencies": {
+    "@base-ui/react": "^1.8.0",
     "@prisma/adapter-better-sqlite3": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@radix-ui/react-dialog": "^1.1.23",
@@ -28,6 +31,7 @@
     "better-sqlite3": "^13.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cn": "^0.4.0",
     "dotenv": "^18.0.3",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^13.4.3",

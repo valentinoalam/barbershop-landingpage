@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import { useEffect } from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import { useEffect, useMemo } from "react"
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 
@@ -26,6 +26,19 @@ interface MapComponentProps {
   activeLocationId?: number
 }
 
+// Sub-komponen helper untuk mengatur tampilan batas peta secara dinamis
+const SetMapBounds = ({ bounds }: { bounds: L.LatLngBoundsExpression }) => {
+  const map = useMap()
+
+  useEffect(() => {
+    if (bounds) {
+      map.fitBounds(bounds, { padding: [50, 50] })
+    }
+  }, [map, bounds])
+
+  return null
+}
+
 const MapComponent = ({ locations, onMarkerClick, activeLocationId }: MapComponentProps) => {
   useEffect(() => {
     delete (L.Icon.Default.prototype as any)._getIconUrl
@@ -35,7 +48,12 @@ const MapComponent = ({ locations, onMarkerClick, activeLocationId }: MapCompone
       shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
     })
   }, [])
-
+  // Hitung LatLngBounds dari seluruh lokasi yang ada
+  const bounds = useMemo(() => {
+    if (!locations || locations.length === 0) return undefined
+    const latLngs = locations.map((loc) => [loc.lat, loc.lng] as [number, number])
+    return L.latLngBounds(latLngs).pad(0.2) // Menambahkan margin 20% di sekeliling lokasi
+  }, [locations])
   const createCustomIcon = (isActive: boolean) => {
     return L.divIcon({
       html: `
@@ -63,16 +81,21 @@ const MapComponent = ({ locations, onMarkerClick, activeLocationId }: MapCompone
   }
 
   // Center map on NYC area
-  const center: [number, number] = [40.7589, -73.9851]
+  const defaultCenter: [number, number] = [40.7589, -73.9851]
 
   return (
     <div className="w-full h-96 rounded-xl overflow-hidden shadow-xl">
-      <MapContainer center={center} zoom={12} style={{ height: "100%", width: "100%", zIndex: "0" }} scrollWheelZoom={true}>
+      <MapContainer center={defaultCenter} zoom={12} minZoom={10} // Mencegah zoom out terlalu jauh
+        maxBounds={bounds} // Membatasi pergerakan peta agar tidak keluar dari bingkai area lokasi
+        maxBoundsViscosity={1.0} // Memberikan efek 'solid' (tidak bisa ditarik keluar dari maxBounds sama sekali)
+        style={{ height: "100%", width: "100%", zIndex: "0" }}
+        scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
+        {/* Pasang helper untuk menyesuaikan batas tampilan jika data lokasi tersedia */}
+        {bounds && <SetMapBounds bounds={bounds} />}
         {locations.map((location) => (
           <Marker
             key={location.id}
