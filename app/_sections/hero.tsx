@@ -11,7 +11,9 @@ import {
   CarouselPrevious,
   CarouselApi
 } from "@/components/ui/carousel"
-
+import Link from 'next/link';
+import Autoplay from 'embla-carousel-autoplay'
+import React from 'react';
 type ImageProps = {
   src: string;
   alt: string;
@@ -139,7 +141,6 @@ function HeroSection() {
   //     </div>
   //   );
   // }
-
   return (
     <div className="@container h-screen relative w-full">
       <div className="@[480px]:p-0">
@@ -149,7 +150,9 @@ function HeroSection() {
           opts={{
             align: "start",
             loop: true,
+            duration: 60,
           }}
+          plugins={[Autoplay({ delay: 2000, stopOnInteraction: true })]}
         >
           <CarouselContent className="relative">
             {slides.map((slide, index) => {
@@ -216,11 +219,11 @@ function HeroSection() {
                         {slide.subtitle}
                       </h2>
                     </div>
-                    <button onClick={e=>console.log("click")}
-                      className="bg-[#f3c334] hover:bg-[#e6b82d] text-[#181611] h-10 has-[>svg]:px-4 font-bold transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg rounded-full px-6 @[480px]:px-8"
+                    <Link href="/booking"
+                      className="bg-[#f3c334] hover:bg-[#e6b82d] text-[#181611] content-evenly h-10 has-[>svg]:px-4 font-bold transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg rounded-full px-6 @[480px]:px-8"
                     >
                       Book Now
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </CarouselItem>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock, MapPin, Camera, Check } from "lucide-react"
 import Image from "next/image"
@@ -28,47 +28,32 @@ interface Appointment {
 }
 
 export default function AppointmentsPage() {
-  const [appointments, setAppointments] = useState<Appointment[]>([])
-  const [loading, setLoading] = useState(true)
+  const mockAppointments: Appointment[] = [
+    {
+      id: "1",
+      appointmentDate: "2024-01-15",
+      appointmentTime: "10:00 AM",
+      status: "confirmed",
+      service: { name: "Classic Cut & Style", price: 45, time: 45 },
+      barber: { name: "Ethan Carter", image: "/ethan-carter-barber.png" },
+      office: { location: "Downtown Manhattan" },
+      notes: "Fade on sides, keep length on top",
+    },
+    {
+      id: "2",
+      appointmentDate: "2024-01-08",
+      appointmentTime: "2:30 PM",
+      status: "completed",
+      service: { name: "Beard Trim & Hot Towel", price: 35, time: 30 },
+      barber: { name: "Liam Harper", image: "/liam-harper-barber-portrait.png" },
+      office: { location: "Uptown Brooklyn" },
+      photoUrl: "/completed-haircut-1.jpg",
+    },
+  ]
+  const [appointments, setAppointments] = useState<Appointment[]>(mockAppointments)
+  // const [loading, setLoading] = useState(true)
   const [uploadingPhoto, setUploadingPhoto] = useState<string | null>(null)
   const [selectedTab, setSelectedTab] = useState<"upcoming" | "past">("upcoming")
-
-  useEffect(() => {
-    fetchAppointments()
-  }, [])
-
-  const fetchAppointments = async () => {
-    try {
-      // Mock data for demonstration - replace with actual API call
-      const mockAppointments: Appointment[] = [
-        {
-          id: "1",
-          appointmentDate: "2024-01-15",
-          appointmentTime: "10:00 AM",
-          status: "confirmed",
-          service: { name: "Classic Cut & Style", price: 45, time: 45 },
-          barber: { name: "Ethan Carter", image: "/ethan-carter-barber.png" },
-          office: { location: "Downtown Manhattan" },
-          notes: "Fade on sides, keep length on top",
-        },
-        {
-          id: "2",
-          appointmentDate: "2024-01-08",
-          appointmentTime: "2:30 PM",
-          status: "completed",
-          service: { name: "Beard Trim & Hot Towel", price: 35, time: 30 },
-          barber: { name: "Liam Harper", image: "/liam-harper-barber-portrait.png" },
-          office: { location: "Uptown Brooklyn" },
-          photoUrl: "/completed-haircut-1.jpg",
-        },
-      ]
-      setAppointments(mockAppointments)
-    } catch (error) {
-      console.error("Failed to fetch appointments:", error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const handlePhotoUpload = async (appointmentId: string, file: File) => {
     setUploadingPhoto(appointmentId)
@@ -123,16 +108,16 @@ export default function AppointmentsPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-slate-600">Loading your appointments...</p>
-        </div>
-      </div>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
+  //         <p className="text-slate-600">Loading your appointments...</p>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   return (
     

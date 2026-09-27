@@ -133,13 +133,13 @@ function Header() {
               <ShoppingBag className="w-5 h-5" />
             </button> */}
           </div>
-          <button className={`flex min-w-21 max-w-120 cursor-pointer hover:bg-[#e6b02e] items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f3c334] text-[#181611] text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ml-4 font-inter ${
+          <a href='/booking' className={`flex min-w-21 max-w-120 cursor-pointer hover:bg-[#e6b02e] items-center justify-center overflow-hidden rounded-full h-10 px-4 text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-300 ml-4 font-inter ${
             isScrolled 
-              ? 'shadow-md hover:shadow-lg' 
-              : 'hover:shadow-xl'
+              ? 'bg-[#f3c334] text-[#181611] shadow-md hover:shadow-lg' 
+              : 'bg-none text-white hover:shadow-xl'
           }`}>
             <span className="truncate">Book Now</span>
-          </button>
+          </a>
         </nav>
       </div>
 
@@ -202,13 +202,11 @@ function Header() {
                 </Link>
               </div>
             ))}
-            <button className={`flex w-full sm:w-auto sm:max-w-50 cursor-pointer hover:bg-[#e6b02e] items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-[#f3c334] text-[#181611] text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 mt-4 font-inter ${
-              isScrolled 
-                ? 'shadow-md hover:shadow-lg' 
-                : 'hover:shadow-xl'
-            }`}>
+            <Link className={`flex w-full sm:w-auto sm:max-w-50 cursor-pointer hover:bg-[#e6b02e] items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-[#f3c334] text-[#181611] text-base font-bold leading-normal tracking-[0.015em] transition-all duration-300 mt-4 font-inter ${isScrolled
+                ? 'shadow-md hover:shadow-lg'
+                : 'hover:shadow-xl'}`} href='/booking'>
               <span className="truncate">Book Now</span>
-            </button>
+            </Link>
           </nav>
         </div>
       </div>

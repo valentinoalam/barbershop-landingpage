@@ -1,5 +1,44 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { DayOfWeek } from "@prisma/client"
+
+// Interval antar slot booking, dalam menit. Sesuaikan kalau bisnisnya butuh
+// granularitas lain (mis. 15 menit).
+const SLOT_INTERVAL_MINUTES = 30
+
+// Index array ini mengikuti Date.getDay() (0 = Minggu, 1 = Senin, dst),
+// dan nilainya harus sama persis dengan yang disimpan di BarberSchedule.dayOfWeek.
+const DAY_NAMES: DayOfWeek[] = [
+  "SUNDAY",
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+]
+
+/**
+ * Menghasilkan daftar slot waktu berformat "HH:mm" dari startTime sampai
+ * sebelum endTime, dengan jarak antar slot sebesar intervalMinutes.
+ */
+function generateSlots(startTime: string, endTime: string, intervalMinutes: number): string[] {
+  const slots: string[] = []
+  const [startHour, startMinute] = startTime.split(":").map(Number)
+  const [endHour, endMinute] = endTime.split(":").map(Number)
+
+  let current = startHour * 60 + startMinute
+  const end = endHour * 60 + endMinute
+
+  while (current < end) {
+    const hour = Math.floor(current / 60)
+    const minute = current % 60
+    slots.push(`${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`)
+    current += intervalMinutes
+  }
+
+  return slots
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,151 +50,42 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "barberId and date are required" }, { status: 400 })
     }
 
-    // Get all bookings for this barber on this date
-    const bookings = await prisma.shift.findMany({
-      where: {
-        barberId,
-        appointmentDate: new Date(date),
-        status: "confirmed",
-      },
-      select: {
-        appointmentTime: true,
-      },
-    })
-
-    const bookedSlots = bookings.map((booking) => booking.appointmentTime)
-
-    // Define barber schedules (this could be moved to database later)
-    const barberSchedules: Record<string, Record<string, string[]>> = {
-      ethan: {
-        monday: ["9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"],
-        tuesday: ["9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"],
-        wednesday: [
-          "9:00 AM",
-          "9:30 AM",
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "2:00 PM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-        ],
-        thursday: [
-          "9:00 AM",
-          "9:30 AM",
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "2:00 PM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-        ],
-        friday: [
-          "9:00 AM",
-          "9:30 AM",
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "2:00 PM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-          "4:00 PM",
-        ],
-        saturday: ["8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM"],
-        sunday: [],
-      },
-      liam: {
-        monday: ["10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"],
-        tuesday: [
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "11:30 AM",
-          "2:00 PM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-          "4:00 PM",
-        ],
-        wednesday: [],
-        thursday: [
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "11:30 AM",
-          "2:00 PM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-          "4:00 PM",
-        ],
-        friday: ["10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"],
-        saturday: ["9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM"],
-        sunday: ["10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM"],
-      },
-      noah: {
-        monday: ["9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"],
-        tuesday: [
-          "9:30 AM",
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "11:30 AM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-          "4:00 PM",
-        ],
-        wednesday: [
-          "9:30 AM",
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "11:30 AM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-          "4:00 PM",
-        ],
-        thursday: [
-          "9:30 AM",
-          "10:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "11:30 AM",
-          "2:30 PM",
-          "3:00 PM",
-          "3:30 PM",
-          "4:00 PM",
-        ],
-        friday: ["9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM"],
-        saturday: [],
-        sunday: [],
-      },
-    }
-
-    // Get barber info to determine schedule
     const barber = await prisma.barber.findUnique({
       where: { id: barberId },
-      select: { name: true },
+      select: { id: true },
     })
 
     if (!barber) {
       return NextResponse.json({ error: "Barber not found" }, { status: 404 })
     }
 
-    // Get day of week
     const dateObj = new Date(date)
-    const dayName = dateObj.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase()
+    const dayOfWeek = DAY_NAMES[dateObj.getDay()]
 
-    // Get barber's schedule for this day (using first name in lowercase)
-    const barberKey = barber.name.split(" ")[0].toLowerCase()
-    const daySchedule = barberSchedules[barberKey]?.[dayName] || []
+    // Ambil jadwal kerja barber pada hari tsb (bisa lebih dari satu jika
+    // barber bekerja di beberapa cabang dengan jam berbeda di hari yang sama)
+    const schedules = await prisma.barberSchedule.findMany({
+      where: { barberId, dayOfWeek, isOff: false },
+    })
 
-    // Filter out booked slots
+    // Ambil booking yang sudah ada di tanggal tsb, kecuali yang dibatalkan
+    // (PENDING tetap dianggap menahan slot supaya tidak double-book)
+    const bookings = await prisma.booking.findMany({
+      where: {
+        barberId,
+        appointmentDate: dateObj,
+        status: { not: "CANCELLED" },
+      },
+      select: { startTime: true },
+    })
+
+    const bookedSlots = bookings.map((booking) => booking.startTime)
+
+    const allSlots = schedules.flatMap((schedule) =>
+      generateSlots(schedule.startTime, schedule.endTime, SLOT_INTERVAL_MINUTES),
+    )
+    const daySchedule = Array.from(new Set(allSlots)).sort()
+
     const availableSlots = daySchedule.filter((slot) => !bookedSlots.includes(slot))
 
     return NextResponse.json(
